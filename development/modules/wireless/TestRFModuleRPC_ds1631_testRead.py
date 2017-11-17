@@ -14,21 +14,21 @@ def HelloWorld():
 @setHook(HOOK_STARTUP)
 def startup():
     """Initialize LED pins to output"""
-    setPinDir(GREEN_LED, True) 
+    setPinDir(GREEN_LED, True)
     setPinDir(YELLOW_LED, True)
     crossConnect(DS_TRANSPARENT,DS_STDIO)
     ucastSerial('\x09\x9F\xF8')
-    
-    
+
+
     i2cInit(False)
     i2cWrite(chr(0x90)+chr(0x51),5,False,False) #This should start the conversion process
-    
-    
+
+
 @setHook(HOOK_100MS)
 def HeartBeatLED():
     """Flash GREEN LED every 100ms"""
     writePin(GREEN_LED, not readPin(GREEN_LED))
-    
+
 #@setHook(HOOK_1S)
 def sendMessageBack():
     #variable += '1'
@@ -43,14 +43,13 @@ def sendMessageBack():
         for c in stringToSend:
             if(count == 0):
                 #result = (ord(c) << 8)# | binaryCompare
-                
+
                 finalStringToSend += str(ord(c))
                 finalStringToSend += "."
                 count += 1
             else:
                 finalStringToSend += str(ord(c)>>4)+" degrees Celsius."
-        
+
         print "Temperature string is: "+finalStringToSend
     else:
         print "Unsuccessful Temperature Read!"
-    

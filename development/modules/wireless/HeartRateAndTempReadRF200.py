@@ -16,6 +16,10 @@ def startup():
     setPinDir(YELLOW_LED, True)
     i2cInit(True)
 
+    # tell the ds1631 to start calculating temperature
+    i2cInit(False)
+    i2cWrite(chr(0x90) + chr(0x51), 5, False, False)
+
 
 @setHook(HOOK_100MS)
 def heart_beat_led():
@@ -35,11 +39,25 @@ def ds1631_temp_read():
 
     # global ds1631Temp
 
+    finalStringToSend = ""
     i2cWrite(chr(0x90) + chr(0xAA), 5, False, True)
-    temp_not_formatted = i2cRead(chr(0x91), 2, 1, False)
+    stringToSend = i2cRead(chr(0x91), 2, 1, False)
     if getI2cResult() == 1:
-        # ds1631Temp.append(temp_not_formatted)
-        return temp_not_formatted
+        count = 0
+        for c in stringToSend:
+            if (count == 0):
+
+                finalStringToSend += str(ord(c))
+                finalStringToSend += "."
+                count += 1
+            else:
+                finalStringToSend += str(ord(c) >> 4) + " degrees Celsius."
+
+        # ds1631Temp.append(finalStringToSend)
+
+        return finalStringToSend
+
+    return 0
 
 
 # @setHook(HOOK_1S)
@@ -48,16 +66,34 @@ def heart_rate_read():
 
     # global heartRate
 
-    heart_voltage = readADC(0)
-    if 0 < heart_voltage < 1023:
-        # heartRate.append(heart_voltage)
-        return heart_voltage
+    heart_voltage = readAdc(0)
+    # if 0 < heart_voltage < 1023:
+    # heartRate.append(heart_voltage)
+    # return heart_voltage
+
+    return heart_voltage
 
 
-def get_data():
+def get_heart_rate():
     """Return heart rate and temperature data collected by this athlete worn device."""
 
     # global heartRate, ds1631Temp
 
-    return [HeartRateRead(), DS1631TempRead()]
+    return heart_rate_read()
 
+
+def get_temperature():
+    """Return heart rate and temperature data collected by this athlete worn device."""
+
+    # global heartRate, ds1631Temp
+
+    return ds1631_temp_read()
+
+
+def get_data_string():
+    """Return heart rate and temperature data collected by this athlete worn device. This is useful for looking at data
+    on Portal."""
+
+    # global heartRate, ds1631Temp
+
+    return "\n\nheart rate: " + str(heart_rate_read()) + "\ntemperature: " + ds1631_temp_read()
