@@ -100,10 +100,19 @@ def heart_rate_read():
     return heart_voltage
 
 
-def get_data_string():
+def get_data_string_formatted_for_portal():
     """Return heart rate and temperature data collected by this athlete worn device. This is useful for looking at data
-    on Portal."""
+    on Portal. All it does is put some new lines in the response to make it easier to look at on portal."""
 
     # global heartRate, ds1631Temp
 
     return "\n\nheart rate: " + str(heart_rate_read()) + "\ntemperature: " + ds1631_temp_read()
+
+
+def get_data_string():
+    """Return heart rate and temperature data collected by this athlete worn device. In order to pass multiple values
+    over one function it seems easiest to pass it as a string. Passing it as a list does not work."""
+
+    # global heartRate, ds1631Temp
+
+    return str(heart_rate_read()) + " " + str(ds1631_temp_read())
