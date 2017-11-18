@@ -355,16 +355,6 @@ if (typeof NProgress != 'undefined') {
 			[gd(2012, 1, 6), 85],
 			[gd(2012, 1, 7), 7]
 		];
-
-		var arr_data2 = [
-		  [gd(2012, 1, 1), 82],
-		  [gd(2012, 1, 2), 23],
-		  [gd(2012, 1, 3), 66],
-		  [gd(2012, 1, 4), 9],
-		  [gd(2012, 1, 5), 119],
-		  [gd(2012, 1, 6), 6],
-		  [gd(2012, 1, 7), 9]
-		];
 		
 		var arr_data3 = [
 			[0, 1],
@@ -440,7 +430,7 @@ if (typeof NProgress != 'undefined') {
             borderWidth: 1,
             color: '#fff'
           },
-          colors: ["rgba(38, 185, 154, 0.38)", "rgba(255, 109, 5, 0.38)"],
+          colors: ["rgba(38, 185, 154, 0.38)"],
           xaxis: {
             tickColor: "rgba(51, 51, 51, 0.06)",
             mode: "time",
@@ -550,7 +540,7 @@ if (typeof NProgress != 'undefined') {
         if ($("#chart_plot_01").length){
 			console.log('Plot1');
 			
-			$.plot( $("#chart_plot_01"), [ arr_data1, arr_data2 ],  chart_plot_01_settings );
+			$.plot( $("#chart_plot_01"), [ arr_data1 ],  chart_plot_01_settings );
 		}
 		
 		
@@ -789,9 +779,9 @@ if (typeof NProgress != 'undefined') {
 		
 		if ($('#gauge-text2').length){
 			
-			chart_gauge_02.maxValue = 9000;
+			chart_gauge_02.maxValue = 220;
 			chart_gauge_02.animationSpeed = 32;
-			chart_gauge_02.set(2400);
+			chart_gauge_02.set(118);
 			chart_gauge_02.setTextField(document.getElementById("gauge-text2"));
 		
 		}
