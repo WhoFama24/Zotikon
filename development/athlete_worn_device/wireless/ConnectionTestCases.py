@@ -46,18 +46,27 @@ import logging
 import binascii
 import sys
 import time
+import platform
 
 from snapconnect import snap
 
 # use this for snapstick sn200
 SERIAL_TYPE = snap.SERIAL_TYPE_RS232
 
-# COM3 for windows
-SERIAL_PORT = 2
+if platform.system() == 'Linux':
+
+    # for beaglebone
+    SERIAL_PORT = "/dev/ttyUSB0"
+
+elif platform.system() == 'Windows':
+
+    # COM3 for WINDOWS --do com number minus 1. So COM3 == (3-1) == 2
+    SERIAL_PORT = 2
 
 # used to identify the RF200 devices
 Athlete_1_NetAddr = '\x5D\xE3\xAB'
 Athlete_2_NetAddr = '\x5D\xE5\x10'
+Athlete_3_NetAddr = '\x07\xA1\xDE'
 
 # create or append to our logfile
 log_file = open("LogFile.txt", "a")
@@ -67,6 +76,8 @@ sent_random_ath1 = 0
 received_random_ath1 = 0
 sent_random_ath2 = 0
 received_random_ath2 = 0
+sent_random_ath3 = 0
+received_random_ath3 = 0
 
 
 class BridgeVersionClient(object):
@@ -120,7 +131,8 @@ class BridgeVersionClient(object):
     def get_random(self, athlete_addr):
         """This function makes a rpc call to the device specified by athlete_addr. It will increment the sent random
         globals for that device and will log data to the LogFile"""
-        global sent_random_ath1, sent_random_ath2, received_random_ath1, received_random_ath2
+        global sent_random_ath1, sent_random_ath2, sent_random_ath3, received_random_ath1, received_random_ath2, \
+            received_random_ath3
 
         athlete_num = 0
         sent_random = 0
@@ -133,12 +145,19 @@ class BridgeVersionClient(object):
             sent_random = sent_random_ath1
             received = received_random_ath1
 
-        # set data for athlete 2
-        else:
+        # set data for athlete 1
+        elif athlete_addr == Athlete_2_NetAddr:
             athlete_num = 2
             sent_random_ath2 += 1
             sent_random = sent_random_ath2
             received = received_random_ath2
+
+        # set data for athlete 1
+        elif athlete_addr == Athlete_3_NetAddr:
+            athlete_num = 3
+            sent_random_ath3 += 1
+            sent_random = sent_random_ath3
+            received = received_random_ath3
 
         # log data to file
         log_file.write("sent            " + str(athlete_num) + "         " + str(time.time()) + "     " + str(
@@ -156,7 +175,8 @@ class BridgeVersionClient(object):
         increment the received random globals for that device and will log data to the LogFile. This function will also
         make a log to the display screen which lets us know that we are getting some data so we can stop it if something
         is wrong."""
-        global sent_random_ath1, sent_random_ath2, received_random_ath1, received_random_ath2
+        global sent_random_ath1, sent_random_ath2, sent_random_ath3, received_random_ath1, received_random_ath2, \
+            received_random_ath3
 
         athlete_num = 0
         sent_random = 0
@@ -170,11 +190,18 @@ class BridgeVersionClient(object):
             received = received_random_ath1
 
         # received data for athlete 2
-        else:
+        elif self.comm.rpcSourceAddr() == Athlete_2_NetAddr:
             athlete_num = 2
             sent_random = sent_random_ath2
             received_random_ath2 += 1
             received = received_random_ath2
+
+        # received data for athlete 2
+        elif self.comm.rpcSourceAddr() == Athlete_3_NetAddr:
+            athlete_num = 3
+            sent_random = sent_random_ath3
+            received_random_ath3 += 1
+            received = received_random_ath3
 
         # log data to file
         log_file.write("received        " + str(athlete_num) + "         " + str(time.time()) + "     " +
@@ -220,6 +247,7 @@ class BridgeVersionClient(object):
         # make a get random call to each athlete device every random_interval seconds
         self.event1 = self.comm.scheduler.schedule(random_interval, lambda: self.get_random(Athlete_1_NetAddr))
         self.event2 = self.comm.scheduler.schedule(random_interval, lambda: self.get_random(Athlete_2_NetAddr))
+        self.event3 = self.comm.scheduler.schedule(random_interval, lambda: self.get_random(Athlete_3_NetAddr))
 
         # create a timeout that will go off at timeout_interval and call the timeout_func
         self.timeout = self.comm.scheduler.schedule(timeout_interval, timeout_func)
@@ -235,6 +263,7 @@ class BridgeVersionClient(object):
         """This function will stop sending get random calls to each device and the timeout"""
         self.event1.Stop()
         self.event2.Stop()
+        self.event3.Stop()
         self.timeout.Stop()
 
     def stop(self):
@@ -248,11 +277,15 @@ class BridgeVersionClient(object):
 def set_globals_0():
     """This resets our global variables to 0. This makes it easier to look at between timing interval and period
     situations."""
-    global sent_random_ath1, sent_random_ath2, received_random_ath1, received_random_ath2
+    global sent_random_ath1, sent_random_ath2, sent_random_ath3, received_random_ath1, received_random_ath2, \
+        received_random_ath3
+
     sent_random_ath1 = 0
     sent_random_ath2 = 0
+    sent_random_ath3 = 0
     received_random_ath1 = 0
     received_random_ath2 = 0
+    received_random_ath3 = 0
 
 
 if __name__ == "__main__":

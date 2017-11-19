@@ -3,12 +3,21 @@
 import logging
 import binascii
 import sys
+import platform
 
 from snapconnect import snap
 
-
 SERIAL_TYPE = snap.SERIAL_TYPE_RS232
-SERIAL_PORT = 2  # COM3 for windows
+
+if platform.system() == 'Linux':
+
+    # for beaglebone
+    SERIAL_PORT = "/dev/ttyUSB0"
+
+elif platform.system() == 'Windows':
+
+    # COM3 for WINDOWS --do com number minus 1. So COM3 == (3-1) == 2
+    SERIAL_PORT = 2
 
 
 class BridgeVersionClient(object):
