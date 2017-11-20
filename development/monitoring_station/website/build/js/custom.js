@@ -413,7 +413,17 @@ if (typeof NProgress != 'undefined') {
             }
         });
         console.log(arr_data2);
-
+		
+//		var arr_data1 = [
+//			[gd(2012, 1, 1), 17],
+//			[gd(2012, 1, 2), 74],
+//			[gd(2012, 1, 3), 6],
+//			[gd(2012, 1, 4), 39],
+//			[gd(2012, 1, 5), 20],
+//			[gd(2012, 1, 6), 85],
+//			[gd(2012, 1, 7), 7]
+//		];
+//		
 //		var arr_data3 = [
 //			[0, 1],
 //			[1, 9],
@@ -433,65 +443,7 @@ if (typeof NProgress != 'undefined') {
 //			[15, 4],
 //			[16, 9]
 //		];
-		
-<<<<<<< HEAD
-		var arr_data1 = [
-			[gd(2012, 1, 1), 17],
-			[gd(2012, 1, 2), 74],
-			[gd(2012, 1, 3), 6],
-			[gd(2012, 1, 4), 39],
-			[gd(2012, 1, 5), 20],
-			[gd(2012, 1, 6), 85],
-			[gd(2012, 1, 7), 7]
-		];
-		
-		var arr_data3 = [
-			[0, 1],
-			[1, 9],
-			[2, 6],
-			[3, 10],
-			[4, 5],
-			[5, 17],
-			[6, 6],
-			[7, 10],
-			[8, 7],
-			[9, 11],
-			[10, 35],
-			[11, 9],
-			[12, 12],
-			[13, 5],
-			[14, 3],
-			[15, 4],
-			[16, 9]
-		];
-		
-		var chart_plot_02_data = [];
-		
-		var chart_plot_03_data = [
-			[0, 1],
-			[1, 9],
-			[2, 6],
-			[3, 10],
-			[4, 5],
-			[5, 17],
-			[6, 6],
-			[7, 10],
-			[8, 7],
-			[9, 11],
-			[10, 35],
-			[11, 9],
-			[12, 12],
-			[13, 5],
-			[14, 3],
-			[15, 4],
-			[16, 9]
-		];
-		
-		
-		for (var i = 0; i < 30; i++) {
-		  chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
-		}
-=======
+//		
 //		var chart_plot_02_data = [];
 //		
 //		var chart_plot_03_data = [
@@ -518,8 +470,33 @@ if (typeof NProgress != 'undefined') {
 //		for (var i = 0; i < 30; i++) {
 //		  chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
 //		}
->>>>>>> refs/remotes/origin/master
-		
+
+//		var chart_plot_02_data = [];
+//		
+//		var chart_plot_03_data = [
+//			[0, 1],
+//			[1, 9],
+//			[2, 6],
+//			[3, 10],
+//			[4, 5],
+//			[5, 17],
+//			[6, 6],
+//			[7, 10],
+//			[8, 7],
+//			[9, 11],
+//			[10, 35],
+//			[11, 9],
+//			[12, 12],
+//			[13, 5],
+//			[14, 3],
+//			[15, 4],
+//			[16, 9]
+//		];
+//		
+//		
+//		for (var i = 0; i < 30; i++) {
+//		  chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
+//		}
 		
 		var chart_plot_01_settings = {
           series: {
@@ -555,11 +532,9 @@ if (typeof NProgress != 'undefined') {
             tickColor: "#d5d5d5",
             borderWidth: 1
           },
-<<<<<<< HEAD
-          colors: ["rgba(38, 185, 154, 0.38)"],
-=======
+
           colors: ["rgba(0, 0, 0, 0.7)"],
->>>>>>> refs/remotes/origin/master
+
           xaxis: {
             tickColor: "rgba(51, 51, 51, 0.06)",
             mode: "time",
