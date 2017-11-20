@@ -434,6 +434,7 @@ if (typeof NProgress != 'undefined') {
 //			[16, 9]
 //		];
 		
+
 //		var chart_plot_02_data = [];
 //		
 //		var chart_plot_03_data = [
@@ -460,7 +461,6 @@ if (typeof NProgress != 'undefined') {
 //		for (var i = 0; i < 30; i++) {
 //		  chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
 //		}
-		
 		
 		var chart_plot_01_settings = {
           series: {
@@ -496,7 +496,9 @@ if (typeof NProgress != 'undefined') {
             tickColor: "#d5d5d5",
             borderWidth: 1
           },
+
           colors: ["rgba(0, 0, 0, 0.7)"],
+
           xaxis: {
             tickColor: "rgba(51, 51, 51, 0.06)",
             mode: "time",
@@ -861,9 +863,9 @@ if (typeof NProgress != 'undefined') {
 		
 		if ($('#gauge-text2').length){
 			
-			chart_gauge_02.maxValue = 9000;
+			chart_gauge_02.maxValue = 220;
 			chart_gauge_02.animationSpeed = 32;
-			chart_gauge_02.set(2400);
+			chart_gauge_02.set(118);
 			chart_gauge_02.setTextField(document.getElementById("gauge-text2"));
 		
 		}
