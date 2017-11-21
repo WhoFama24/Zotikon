@@ -175,8 +175,8 @@
                                     <tr>
 										<td>Final Presentation</td>
 										<td><a href="deliverables/Zotikon_FinalPresentation_Draft.pptx" target="_blank"><span class="fa fa-file-powerpoint-o"></span></a></td>
-										<td></td>
-                                        <td></td>
+										<td><a href="deliverables/Zotikon_FinalPresentation_Final.pptx" target="_blank"><span class="fa fa-file-powerpoint-o"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_FinalPresentation_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
 									</tr>
                                     <tr>
 										<td>Schematics</td>

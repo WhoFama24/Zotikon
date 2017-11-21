@@ -336,27 +336,83 @@ if (typeof NProgress != 'undefined') {
 	function gd(year, month, day, hour, minute, second, millisecond) {
 		return new Date(year, month - 1, day, hour, minute, second, millisecond).getTime();
 	}
+
+    function formatTime(input) {
+        for (var i = 0; i < input.length; i++) {
+            var date = input[i][0];
+            input[i][0] = new Date(date).getTime();
+        }
+        return input;
+    }
 	  
-	
-	function init_flot_chart(){
+var arr_bpmTextboxes = document.getElementsByClassName("bpm-display-text");
+var arr_tempTextboxes = document.getElementsByClassName("temp-display-text");
+var i_tempTextboxIndex = 0;
+var i_bpmTextboxIndex = 0;
+	function init_flot_chart() {
 		
 		if( typeof ($.plot) === 'undefined'){ return; }
 		
 		console.log('init_flot_chart');
 		
-		
-//		var arr_data1 = [
-//			[gd(2017, 11, 19, 13, 43, 00, 00), 47],
-//			[gd(2017, 11, 19, 13, 44, 00, 00), 55],
-//			[gd(2017, 11, 19, 13, 45, 00, 00), 63],
-//			[gd(2017, 11, 19, 13, 46, 00, 00), 92],
-//			[gd(2017, 11, 19, 13, 47, 00, 00), 136],
-//			[gd(2017, 11, 19, 13, 48, 00, 00), 85],
-//			[gd(2017, 11, 19, 13, 49, 00, 00), 72]
-//		];
         var arr_data1 = [];
         var arr_data2 = [];
         var arr_data3 = [];
+        
+        var heart_rate_chart_plot_settings = {
+            series: {
+                lines: {
+                    show: false,
+                    fill: true
+                },
+                splines: {
+                    show: true,
+                    tension: 0.8,
+                    lineWidth: 2,
+                    fill: 0.4
+                },
+                points: {
+                    radius: 2,
+                    show: true,
+                },
+                shadowSize: 2
+            },
+            grid: {
+                show: true,
+                aboveData: false,
+                color: "#FFFFFF",
+                markings: [
+                    {yaxis: {from: 110, to: 132}, color: "rgba(5, 175, 255, 0.43)"},
+                    {yaxis: {from: 132, to: 154}, color: "rgba(112, 255, 76, 0.43)"},
+                    {yaxis: {from: 154, to: 176}, color: "rgba(255, 216, 76, 0.43)"},
+                    {yaxis: {from: 176, to: 198}, color: "rgba(255, 76, 76, 0.43)"}
+                ],
+                verticalLines: false,
+                hoverable: true,
+                clickable: true,
+                tickColor: "#D5D5D5",
+                borderWidth: 1
+            },
+            colors: [
+                "rgba(0, 0, 0, 0.7)"
+            ],
+            xaxis: {
+                show: true,
+                position: "bottom",
+                mode: "time",
+                tickColor: "rgba(51, 51, 51, 0.06)",
+                tickLength: 10,
+                tickSize: [1, "minute"],
+                timeformat: "%H:%M.%S"
+            },
+            yaxis: {
+                ticks: 8,
+                tickColor: "rgba(51, 51, 51, 0.06)",
+                min: 0,
+                max: 1000
+            },
+            tooltip: false
+        };
         
         $.ajax({
             url: "http://192.168.7.2/influxdb/query",
@@ -364,27 +420,32 @@ if (typeof NProgress != 'undefined') {
             dataType: 'json',
             data: {
                 db: "ZotikonEventTSDB",
-                epoch: "ms",
                 pretty: "true",
-                q: "SELECT heartRate,temperature FROM Event_001 WHERE playerId='1'"
+                epoch: "us",
+                q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='1'"
             },
             success: function(response) {
-                console.log(JSON.stringify(response.results[0].series[0].values));
                 var values = response.results[0].series[0].values;
+                var values = formatTime(values);
                 for (var i = 0; i < values.length; i++) {
-                    console.log("Time: " + values[i][0]);
-                    console.log("Heart Rate: " + values[i][1]);
-                    console.log("Temperature: " + values[i][2]);
-                    console.log(" ");
-                    
-                    arr_data1.push([new Date(values[i][0]).getTime(), values[i][1]]);
+                    arr_data1.push([values[i][0], values[i][1]]);
                 }
+                
+                if ($("#chart_plot_01").length){
+                    console.log('Plot1');
+                    var plot_data = new Array(arr_data1);
+                    $.plot( $("#chart_plot_01"), plot_data,  heart_rate_chart_plot_settings );
+                }
+
+		arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
+		i_tempTextboxIndex++;
+		arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
+		i_bpmTextboxIndex++;
             },
             error: function(respsonse) {
                 console.log(response);
             }
         });
-        console.log(arr_data1);
         
         $.ajax({
             url: "http://192.168.7.2/influxdb/query",
@@ -394,310 +455,68 @@ if (typeof NProgress != 'undefined') {
                 db: "ZotikonEventTSDB",
                 epoch: "us",
                 pretty: "true",
-                q: "SELECT heartRate,temperature FROM Event_004 WHERE playerId='2'"
+                q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='2'"
             },
             success: function(response) {
-                console.log(JSON.stringify(response.results[0].series[0].values));
                 var values = response.results[0].series[0].values;
+                values = formatTime(values);
+                var init_time = values[0][0];
                 for (var i = 0; i < values.length; i++) {
-                    console.log("Time: " + values[i][0]);
-                    console.log("Heart Rate: " + values[i][1]);
-                    console.log("Temperature: " + values[i][2]);
-                    console.log(" ");
-                    
-                    arr_data1.push([new Date(values[i][0]).getTime(), values[i][1]]);
+                    arr_data2.push(new Array(((values[i][0] - init_time) / 1000), values[i][1]));
                 }
+                
+                if ($("#chart_plot_02").length) {
+                    console.log('Plot2');
+                    var plot_data = new Array(arr_data2);
+                    $.plot( $("#chart_plot_02"), plot_data, heart_rate_chart_plot_settings );
+                }
+                
+                arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
+                i_tempTextboxIndex++;
+                arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
+                i_bpmTextboxIndex++;
             },
             error: function(respsonse) {
                 console.log(response);
             }
         });
-        console.log(arr_data2);
-		
-//		var arr_data1 = [
-//			[gd(2012, 1, 1), 17],
-//			[gd(2012, 1, 2), 74],
-//			[gd(2012, 1, 3), 6],
-//			[gd(2012, 1, 4), 39],
-//			[gd(2012, 1, 5), 20],
-//			[gd(2012, 1, 6), 85],
-//			[gd(2012, 1, 7), 7]
-//		];
-//		
-//		var arr_data3 = [
-//			[0, 1],
-//			[1, 9],
-//			[2, 6],
-//			[3, 10],
-//			[4, 5],
-//			[5, 17],
-//			[6, 6],
-//			[7, 10],
-//			[8, 7],
-//			[9, 11],
-//			[10, 35],
-//			[11, 9],
-//			[12, 12],
-//			[13, 5],
-//			[14, 3],
-//			[15, 4],
-//			[16, 9]
-//		];
-//		
-//		var chart_plot_02_data = [];
-//		
-//		var chart_plot_03_data = [
-//			[0, 1],
-//			[1, 9],
-//			[2, 6],
-//			[3, 10],
-//			[4, 5],
-//			[5, 17],
-//			[6, 6],
-//			[7, 10],
-//			[8, 7],
-//			[9, 11],
-//			[10, 35],
-//			[11, 9],
-//			[12, 12],
-//			[13, 5],
-//			[14, 3],
-//			[15, 4],
-//			[16, 9]
-//		];
-//		
-//		
-//		for (var i = 0; i < 30; i++) {
-//		  chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
-//		}
-
-//		var chart_plot_02_data = [];
-//		
-//		var chart_plot_03_data = [
-//			[0, 1],
-//			[1, 9],
-//			[2, 6],
-//			[3, 10],
-//			[4, 5],
-//			[5, 17],
-//			[6, 6],
-//			[7, 10],
-//			[8, 7],
-//			[9, 11],
-//			[10, 35],
-//			[11, 9],
-//			[12, 12],
-//			[13, 5],
-//			[14, 3],
-//			[15, 4],
-//			[16, 9]
-//		];
-//		
-//		
-//		for (var i = 0; i < 30; i++) {
-//		  chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
-//		}
-		
-		var chart_plot_01_settings = {
-          series: {
-            lines: {
-              show: false,
-              fill: true
-            },
-            splines: {
-              show: true,
-              tension: 0.4,
-              lineWidth: 2,
-              fill: 0.4
-            },
-            points: {
-              radius: 2,
-              show: true
-            },
-            shadowSize: 2
-          },
-          grid: {
-            show: true,
-            aboveData: false,
-            color: '#fff',
-            markings: [
-                {yaxis: {from: 110, to: 132}, color: "rgba(5, 175, 255, 0.43)"},
-                {yaxis: {from: 132, to: 154}, color: "rgba(112, 255, 76, 0.43)"},
-                {yaxis: {from: 154, to: 176}, color: "rgba(255, 216, 76, 0.43)"},
-                {yaxis: {from: 176, to: 198}, color: "rgba(255, 76, 76, 0.43)"}
-            ],
-            verticalLines: true,
-            hoverable: true,
-            clickable: true,
-            tickColor: "#d5d5d5",
-            borderWidth: 1
-          },
-
-          colors: ["rgba(0, 0, 0, 0.7)"],
-
-          xaxis: {
-            tickColor: "rgba(51, 51, 51, 0.06)",
-            mode: "time",
-            tickSize: [1, "minute"],
-//            minTickSize: [1, "hour"],
-//            tickLength: 10,
-            axisLabel: "Event Time (minutes)",
-//            reserveSpace: true,
-            axisLabelUseCanvas: true,
-            axisLabelFontSizePixels: 12,
-            axisLabelFontFamily: 'Verdana, Arial',
-            axisLabelPadding: 10,
-          },
-          yaxis: {
-            ticks: 8,
-            tickColor: "rgba(51, 51, 51, 0.06)",
-            min: 35,
-            max: 220
-          },
-          tooltip: false
-        }
-		
-//		var chart_plot_02_settings = {
-//			grid: {
-//				show: true,
-//				aboveData: true,
-//				color: "#3f3f3f",
-//				labelMargin: 10,
-//				axisMargin: 0,
-//				borderWidth: 0,
-//				borderColor: null,
-//				minBorderMargin: 5,
-//				clickable: true,
-//				hoverable: true,
-//				autoHighlight: true,
-//				mouseActiveRadius: 100
-//			},
-//			series: {
-//				lines: {
-//					show: true,
-//					fill: true,
-//					lineWidth: 2,
-//					steps: false
-//				},
-//				points: {
-//					show: true,
-//					radius: 4.5,
-//					symbol: "circle",
-//					lineWidth: 3.0
-//				}
-//			},
-//			legend: {
-//				position: "ne",
-//				margin: [0, -25],
-//				noColumns: 0,
-//				labelBoxBorderColor: null,
-//				labelFormatter: function(label, series) {
-//					return label + '&nbsp;&nbsp;';
-//				},
-//				width: 40,
-//				height: 1
-//			},
-//			colors: ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'],
-//			shadowSize: 0,
-//			tooltip: true,
-//			tooltipOpts: {
-//				content: "%s: %y.0",
-//				xDateFormat: "%d/%m",
-//			shifts: {
-//				x: -30,
-//				y: -50
-//			},
-//			defaultTheme: false
-//			},
-//			yaxis: {
-//				min: 0
-//			},
-//			xaxis: {
-//				mode: "time",
-//				minTickSize: [1, "day"],
-//				timeformat: "%d/%m/%y",
-//				min: chart_plot_02_data[0][0],
-//				max: chart_plot_02_data[20][0]
-//			}
-//		};	
-	
-//		var chart_plot_03_settings = {
-//			series: {
-//				curvedLines: {
-//					apply: true,
-//					active: true,
-//					monotonicFit: true
-//				}
-//			},
-//			colors: ["#26B99A"],
-//			grid: {
-//				borderWidth: {
-//					top: 0,
-//					right: 0,
-//					bottom: 1,
-//					left: 1
-//				},
-//				borderColor: {
-//					bottom: "#7F8790",
-//					left: "#7F8790"
-//				}
-//			}
-//		};
-//        
-		
-        if ($("#chart_plot_01").length){
-			console.log('Plot1');
-			
-			$.plot( $("#chart_plot_01"), [ arr_data1 ],  chart_plot_01_settings );
-		}
         
-        if ($("#chart_plot_02").length){
-			console.log('Plot2');
-			
-			$.plot( $("#chart_plot_02"), [ arr_data1 ],  chart_plot_01_settings );
-		}
+        $.ajax({
+            url: "http://192.168.7.2/influxdb/query",
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                db: "ZotikonEventTSDB",
+                epoch: "us",
+                pretty: "true",
+                q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='3'"
+            },
+            success: function(response) {
+                var values = response.results[0].series[0].values;
+                values = formatTime(values);
+                var init_time = values[0][0];
+                for (var i = 0; i < values.length; i++) {
+                    arr_data3.push(new Array(((values[i][0] - init_time) / 1000), values[i][1]));
+                }
+                
+                if ($("#chart_plot_03").length) {
+                    console.log('Plot3');
+                    var plot_data = new Array(arr_data3);
+                    $.plot( $("#chart_plot_03"), plot_data, heart_rate_chart_plot_settings );
+                }
+                
+                arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
+                i_tempTextboxIndex++;
+                arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
+                i_bpmTextboxIndex++;
+            },
+            error: function(respsonse) {
+                console.log(response);
+            }
+        });
+		
         
-        if ($("#chart_plot_03").length){
-			console.log('Plot3');
-			
-			$.plot( $("#chart_plot_03"), [ arr_data1 ],  chart_plot_01_settings );
-		}
-		
-		
-//		if ($("#chart_plot_02").length){
-//			console.log('Plot2');
-//			
-//			$.plot( $("#chart_plot_02"), 
-//			[{ 
-//				label: "Email Sent", 
-//				data: chart_plot_02_data, 
-//				lines: { 
-//					fillColor: "rgba(150, 202, 89, 0.12)" 
-//				}, 
-//				points: { 
-//					fillColor: "#fff" } 
-//			}], chart_plot_02_settings);
-//			
-//		}
-		
-//		if ($("#chart_plot_03").length){
-//			console.log('Plot3');
-//			
-//			
-//			$.plot($("#chart_plot_03"), [{
-//				label: "Registrations",
-//				data: chart_plot_03_data,
-//				lines: {
-//					fillColor: "rgba(150, 202, 89, 0.12)"
-//				}, 
-//				points: {
-//					fillColor: "#fff"
-//				}
-//			}], chart_plot_03_settings);
-//			
-//		};
-	  
-	} 
+	}
 	
 		
 	/* STARRR */
