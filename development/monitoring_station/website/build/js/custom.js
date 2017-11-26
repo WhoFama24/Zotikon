@@ -349,6 +349,9 @@ var arr_bpmTextboxes = document.getElementsByClassName("bpm-display-text");
 var arr_tempTextboxes = document.getElementsByClassName("temp-display-text");
 var i_tempTextboxIndex = 0;
 var i_bpmTextboxIndex = 0;
+var plot_player_01;
+var plot_player_02;
+var plot_player_03;
 	function init_flot_chart() {
 		
 		if( typeof ($.plot) === 'undefined'){ return; }
@@ -384,8 +387,8 @@ var i_bpmTextboxIndex = 0;
                 markings: [
                     {yaxis: {from: 110, to: 132}, color: "rgba(5, 175, 255, 0.43)"},
                     {yaxis: {from: 132, to: 154}, color: "rgba(112, 255, 76, 0.43)"},
-                    {yaxis: {from: 154, to: 176}, color: "rgba(255, 216, 76, 0.43)"},
-                    {yaxis: {from: 176, to: 198}, color: "rgba(255, 76, 76, 0.43)"}
+                    {yaxis: {from: 154, to: 187}, color: "rgba(255, 216, 76, 0.43)"},
+                    {yaxis: {from: 187, to: 220}, color: "rgba(255, 76, 76, 0.43)"}
                 ],
                 verticalLines: false,
                 hoverable: true,
@@ -434,13 +437,25 @@ var i_bpmTextboxIndex = 0;
                 if ($("#chart_plot_01").length){
                     console.log('Plot1');
                     var plot_data = new Array(arr_data1);
-                    $.plot( $("#chart_plot_01"), plot_data,  heart_rate_chart_plot_settings );
+                    plot_player_01 = $.plot( $("#chart_plot_01"), plot_data,  heart_rate_chart_plot_settings );
                 }
 
-		arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
-		i_tempTextboxIndex++;
-		arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
-		i_bpmTextboxIndex++;
+                arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
+                arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
+                
+                last_temp_value = values[values.length - 1][2];
+                if (last_temp_value < 35) arr_tempTextboxes[i_tempTextboxIndex].style.color = "blue";
+                else if (last_temp_value > 38.25) arr_tempTextboxes[i_tempTextboxIndex].style.color = "red";
+                else arr_tempTextboxes[i_tempTextboxIndex].style.color = "#73879C";
+                
+                var last_bpm_value = values[values.length - 1][1];
+                if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(5, 175, 255, 1)";
+                if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(112, 255, 76, 1)";
+                if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 216, 76, 1)";
+                if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 76, 76, 1)";
+                
+                i_tempTextboxIndex++;
+                i_bpmTextboxIndex++;
             },
             error: function(respsonse) {
                 console.log(response);
@@ -468,12 +483,24 @@ var i_bpmTextboxIndex = 0;
                 if ($("#chart_plot_02").length) {
                     console.log('Plot2');
                     var plot_data = new Array(arr_data2);
-                    $.plot( $("#chart_plot_02"), plot_data, heart_rate_chart_plot_settings );
+                    plot_player_02 = $.plot( $("#chart_plot_02"), plot_data, heart_rate_chart_plot_settings );
                 }
                 
                 arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
-                i_tempTextboxIndex++;
                 arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
+                
+                last_temp_value = values[values.length - 1][2];
+                if (last_temp_value < 35) arr_tempTextboxes[i_tempTextboxIndex].style.color = "blue";
+                else if (last_temp_value > 38.25) arr_tempTextboxes[i_tempTextboxIndex].style.color = "red";
+                else arr_tempTextboxes[i_tempTextboxIndex].style.color = "#73879C";
+                
+                var last_bpm_value = values[values.length - 1][1];
+                if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(5, 175, 255, 1)";
+                if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(112, 255, 76, 1)";
+                if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 216, 76, 1)";
+                if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 76, 76, 1)";
+                
+                i_tempTextboxIndex++;
                 i_bpmTextboxIndex++;
             },
             error: function(respsonse) {
@@ -502,12 +529,24 @@ var i_bpmTextboxIndex = 0;
                 if ($("#chart_plot_03").length) {
                     console.log('Plot3');
                     var plot_data = new Array(arr_data3);
-                    $.plot( $("#chart_plot_03"), plot_data, heart_rate_chart_plot_settings );
+                    plot_player_03 = $.plot( $("#chart_plot_03"), plot_data, heart_rate_chart_plot_settings );
                 }
                 
                 arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
-                i_tempTextboxIndex++;
                 arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
+                
+                last_temp_value = values[values.length - 1][2];
+                if (last_temp_value < 35) arr_tempTextboxes[i_tempTextboxIndex].style.color = "blue";
+                else if (last_temp_value > 38.25) arr_tempTextboxes[i_tempTextboxIndex].style.color = "red";
+                else arr_tempTextboxes[i_tempTextboxIndex].style.color = "#73879C";
+                
+                var last_bpm_value = values[values.length - 1][1];
+                if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(5, 175, 255, 1)";
+                if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(112, 255, 76, 1)";
+                if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 216, 76, 1)";
+                if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 76, 76, 1)";
+                
+                i_tempTextboxIndex++;
                 i_bpmTextboxIndex++;
             },
             error: function(respsonse) {
@@ -517,6 +556,145 @@ var i_bpmTextboxIndex = 0;
 		
         
 	}
+
+    setInterval(function() {
+        var arr_data1 = [];
+        var arr_data2 = [];
+        var arr_data3 = [];
+        $.ajax({
+                url: "http://192.168.7.2/influxdb/query",
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    db: "ZotikonEventTSDB",
+                    pretty: "true",
+                    epoch: "us",
+                    q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='1'"
+                },
+                success: function(response) {
+                    var values = response.results[0].series[0].values;
+                    var values = formatTime(values);
+                    for (var i = 0; i < values.length; i++) {
+                        arr_data1.push([values[i][0], values[i][1]]);
+                    }
+
+                    if ($("#chart_plot_01").length){
+    //                    console.log('Updating Plot1');
+                        var plot_data = new Array(arr_data1);
+                        plot_player_01.setData(plot_data);
+                        plot_player_01.draw();
+                    }
+
+                    arr_tempTextboxes[0].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
+                    arr_bpmTextboxes[0].innerHTML = values[values.length - 1][1].toString() + " BPM";
+
+                    last_temp_value = values[values.length - 1][2];
+                    if (last_temp_value < 35) arr_tempTextboxes[0].style.color = "blue";
+                    else if (last_temp_value > 38.25) arr_tempTextboxes[0].style.color = "red";
+                    else arr_tempTextboxes[0].style.color = "#73879C";
+
+                    var last_bpm_value = values[values.length - 1][1];
+                    if (last_bpm_value < 110) arr_bpmTextboxes[0].style.color = "#73879C";
+                    if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[0].style.color = "rgba(5, 175, 255, 1)";
+                    if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[0].style.color = "rgba(112, 255, 76, 1)";
+                    if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[0].style.color = "rgba(255, 216, 76, 1)";
+                    if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[0].style.color = "rgba(255, 76, 76, 1)";
+                },
+                error: function(respsonse) {
+                    console.log(response);
+                }
+            });
+
+            $.ajax({
+                url: "http://192.168.7.2/influxdb/query",
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    db: "ZotikonEventTSDB",
+                    epoch: "us",
+                    pretty: "true",
+                    q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='2'"
+                },
+                success: function(response) {
+                    var values = response.results[0].series[0].values;
+                    values = formatTime(values);
+                    var init_time = values[0][0];
+                    for (var i = 0; i < values.length; i++) {
+                        arr_data2.push(new Array(((values[i][0] - init_time) / 1000), values[i][1]));
+                    }
+
+                    if ($("#chart_plot_02").length) {
+    //                    console.log('Updating Plot2');
+                        var plot_data = new Array(arr_data2);
+                        plot_player_02.setData(plot_data);
+                        plot_player_02.draw();
+                    }
+
+                    arr_tempTextboxes[1].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
+                    arr_bpmTextboxes[1].innerHTML = values[values.length - 1][1].toString() + " BPM";
+
+                    last_temp_value = values[values.length - 1][2];
+                    if (last_temp_value < 35) arr_tempTextboxes[1].style.color = "blue";
+                    else if (last_temp_value > 38.25) arr_tempTextboxes[1].style.color = "red";
+                    else arr_tempTextboxes[1].style.color = "#73879C";
+
+                    var last_bpm_value = values[values.length - 1][1];
+                    if (last_bpm_value < 110) arr_bpmTextboxes[1].style.color = "#73879C";
+                    if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[1].style.color = "rgba(5, 175, 255, 1)";
+                    if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[1].style.color = "rgba(112, 255, 76, 1)";
+                    if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[1].style.color = "rgba(255, 216, 76, 1)";
+                    if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[1].style.color = "rgba(255, 76, 76, 1)";
+                },
+                error: function(respsonse) {
+                    console.log(response);
+                }
+            });
+
+            $.ajax({
+                url: "http://192.168.7.2/influxdb/query",
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    db: "ZotikonEventTSDB",
+                    epoch: "us",
+                    pretty: "true",
+                    q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='3'"
+                },
+                success: function(response) {
+                    var values = response.results[0].series[0].values;
+                    values = formatTime(values);
+                    var init_time = values[0][0];
+                    for (var i = 0; i < values.length; i++) {
+                        arr_data3.push(new Array(((values[i][0] - init_time) / 1000), values[i][1]));
+                    }
+
+                    if ($("#chart_plot_03").length) {
+    //                    console.log('Updating Plot3');
+                        var plot_data = new Array(arr_data3);
+                        plot_player_03.setData(plot_data);
+                        plot_player_03.draw();
+                    }
+
+                    arr_tempTextboxes[2].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
+                    arr_bpmTextboxes[2].innerHTML = values[values.length - 1][1].toString() + " BPM";
+
+                    last_temp_value = values[values.length - 1][2];
+                    if (last_temp_value < 35) arr_tempTextboxes[2].style.color = "blue";
+                    else if (last_temp_value > 38.25) arr_tempTextboxes[2].style.color = "red";
+                    else arr_tempTextboxes[2].style.color = "#73879C";
+
+                    var last_bpm_value = values[values.length - 1][1];
+                    if (last_bpm_value < 110) arr_bpmTextboxes[2].style.color = "#73879C";
+                    if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[2].style.color = "rgba(5, 175, 255, 1)";
+                    if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[2].style.color = "rgba(112, 255, 76, 1)";
+                    if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[2].style.color = "rgba(255, 216, 76, 1)";
+                    if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[2].style.color = "rgba(255, 76, 76, 1)";
+                },
+                error: function(respsonse) {
+                    console.log(response);
+                }
+            });
+    }, 1000);     // Update AJAX data every 1 second
 	
 		
 	/* STARRR */
