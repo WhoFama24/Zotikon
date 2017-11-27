@@ -29,7 +29,7 @@ a,button{outline: none!important;} /* Prevent ugly blue glow on chrome and safar
        url('fonts/montserrat/montserrat-v10-vietnamese_latin-ext_latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
        url('fonts/montserrat/montserrat-v10-vietnamese_latin-ext_latin-regular.svg#Montserrat') format('svg'); /* Legacy iOS */
 }
-   
+
 
 
 /* Globals type styling */
@@ -451,6 +451,7 @@ a[data-lightbox]:hover img{
 	width:90%;
 	max-width:900px;
 	margin:30px auto 0;
+	opacity: 1!important;
 }
 #lightbox-modal .modal-dialog img{
 	margin: 0 auto;
@@ -747,12 +748,12 @@ bom-title {
 }
 
 @-webkit-keyframes zoom {
-    from {-webkit-transform:scale(0)} 
+    from {-webkit-transform:scale(0)}
     to {-webkit-transform:scale(1)}
 }
 
 @keyframes zoom {
-    from {transform:scale(0)} 
+    from {transform:scale(0)}
     to {transform:scale(1)}
 }
 
@@ -782,20 +783,20 @@ bom-title {
 
 
 
-/* = Mobile adjustments 
+/* = Mobile adjustments
 -------------------------------------------------------------- */
 @media (max-width: 1024px)
 {
     .bloc{
-        padding-left: 20px; 
-        padding-right: 20px;  
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
 @media (max-width: 768px)
 {
     .container{width:100%;}
     .b-parallax{background-attachment:scroll;}
-    .page-container, #hero-bloc{overflow-x: hidden;position: relative;} /* Prevent unwanted side scroll on mobile */  
+    .page-container, #hero-bloc{overflow-x: hidden;position: relative;} /* Prevent unwanted side scroll on mobile */
 }
 @media (max-width: 767px)
 {
@@ -804,8 +805,8 @@ bom-title {
         position:relative;
     }
     h1,h2,h3,h4,h5,h6,p{
-        padding-left:10px!important; 
-        padding-right:10px!important; 
+        padding-left:10px!important;
+        padding-right:10px!important;
     }
     #hero-bloc h1{
         font-size:40px;
@@ -817,8 +818,8 @@ bom-title {
         font-size:25px;
     }
     .bloc{
-        padding-left: 0; 
-        padding-right: 0;  
+        padding-left: 0;
+        padding-right: 0;
         -webkit-background-size: auto 200%;
         -moz-background-size: auto 200%;
         -o-background-size: auto 200%;
@@ -827,7 +828,7 @@ bom-title {
     .b-parallax{
         background-attachment:scroll;
     }
-    
+
     .navbar .nav{
         padding-top: 0;
         border-top:1px solid rgba(0,0,0,.2);
@@ -842,7 +843,7 @@ bom-title {
 	   transform:none;
 	   -webkit-transform:none;
 	   -ms-transform:none;
-    }  
+    }
     .nav > li{
         margin-top: 0;
         border-bottom:1px solid rgba(0,0,0,.1);
@@ -876,17 +877,17 @@ bom-title {
     .navbar-brand img{
         max-height: 40px;
         width:auto;
-        margin: -10px 10px 0 0;    
+        margin: -10px 10px 0 0;
     }
     .nav-invert .navbar-header{
         float: none;
         width:100%;
     }
     .nav-invert .navbar-toggle{
-        float:left; 
+        float:left;
     }
     .btn.pull-left, .btn.pull-right{
-       float:none!important; 
+       float:none!important;
     }
     .bloc-group .bloc{
          display:block;
@@ -900,14 +901,14 @@ bom-title {
         padding: 40px 0;
     }
     .bloc-sm,.bloc-md{
-        padding-left: 0; 
+        padding-left: 0;
         padding-right: 0;
     }
     .a-block{
         padding:0 10px;
     }
     .btn-dwn{
-       display:none; 
+       display:none;
     }
     .voffset{
         margin-top:5px;

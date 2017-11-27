@@ -7,7 +7,6 @@
 		<link rel="shortcut icon" type="image/png" href="favicon.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 		<link rel="stylesheet" type="text/css" href="./css/bootstrap.css">
-		<link rel="stylesheet" type="text/css" href="./style.css">
 		<link rel="stylesheet" href="./css/animate.css"/>
 		<script src="./js/jquery-2.1.0.js"></script>
 		<script src="./js/bootstrap.js"></script>
@@ -15,7 +14,8 @@
 		<script src="./js/blocs.js"></script>
 		<link rel='stylesheet' href='./css/et-line.min.css'/>
 		<link rel='stylesheet' href='./css/font-awesome.min.css'/>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="./style.css">
 		<title>Zotikon Project</title>
 	</head>
 	<body>
@@ -45,13 +45,10 @@
 									<a onclick="scrollToTarget('#team')">Team</a>
 								</li>
 								<li>
-									<a onclick="scrollToTarget('#gallery')">Gallery</a>
+									<a onclick="scrollToTarget('#source-code')">Source Code</a>
 								</li>
 								<li>
 									<a onclick="scrollToTarget('#datasheets')">Datasheets</a>
-								</li>
-								<li>
-									<a onclick="scrollToTarget('#source-code')">Source Code</a>
 								</li>
 							</ul>
 						</div>
@@ -133,7 +130,7 @@
                                     <tr>
 										<td>Product Specification</td>
 										<td><a href="deliverables/Zotikon_ProductSpecification_Draft.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
-                                        <td></td>
+                                        <td>N/A</td>
 										<td><a href="deliverables/Zotikon_ProductSpecification_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
 									</tr>
 									<tr>
@@ -163,8 +160,8 @@
                                     <tr>
 										<td>Executive Summary</td>
 										<td><a href="deliverables/Zotikon_ExecutiveSummary_Draft.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-										<td></td>
-                                        <td></td>
+										<td><a href="deliverables/Zotikon_ExecutiveSummary_Final.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_ExecutiveSummary_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
 									</tr>
                                     <tr>
 										<td>Evaluation</td>
@@ -178,11 +175,17 @@
 										<td><a href="deliverables/Zotikon_FinalPresentation_Final.pptx" target="_blank"><span class="fa fa-file-powerpoint-o"></span></a></td>
                                         <td><a href="deliverables/Zotikon_FinalPresentation_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
 									</tr>
-                                    <tr>
-										<td>Schematics</td>
+									<tr>
+										<td>Final Design Document</td>
 										<td></td>
 										<td></td>
                                         <td></td>
+									</tr>
+                                    <tr>
+										<td>Schematics</td>
+										<td>N/A</td>
+										<td>N/A</td>
+                                        <td><a href="deliverables/Zotikon_Schematic.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -292,119 +295,6 @@
 				</div>
 			</div>
 			<!-- team END -->
-			<!-- gallery -->
-            <div class="bloc bgc-outer-space d-bloc" id="gallery">
-				<div class="container bloc-lg">
-					<div class="row">
-						<div class="col-sm-12">
-							<h2 class="text-center mg-md ">
-								Photo Gallery
-							</h2>
-							<p class="text-center sub-heading">
-								Photo documentation of the Zotikon system.
-							</p>
-						</div>
-					</div>
-					<div class="row voffset">
-						<div class="col-sm-3">
-							<a href="#" data-lightbox="img/Zotikon_ProductSpecification_Final.png" data-caption="Zotikon Problem Specification & Overview">
-                                <img src="img/Zotikon_ProductSpecification_Final.png" class="img-responsive animated zoomIn" alt="portfolio"/></a>
-						</div>
-						<div class="col-sm-3">
-							<a href="#" data-lightbox="img/Zotikon_FunctionalityDiagram.png" data-caption="Zotikon Operational Overview"><img
-								src="img/Zotikon_FunctionalityDiagram.png" class="img-responsive animated zoomIn" alt="portfolio"/></a>
-						</div>
-						<div class="col-sm-3">
-							<a href="#" data-lightbox="img/Zotikon_SystemOverview.png" data-caption="Zotikon System Overview"><img
-								src="img/Zotikon_SystemOverview.png" class="img-responsive animated zoomIn" alt="portfolio"/></a>
-						</div>
-						<div class="col-sm-3">
-							<a href="#" data-lightbox="img/Zotikon_ProjectSchedule.png" data-caption="Zotikon Project Schedule"><img
-								src="img/Zotikon_ProjectSchedule.png" class="img-responsive animated zoomIn" alt="portfolio"/></a>
-						</div>
-					</div>
-					<div class="row voffset">
-						<div class="col-sm-3">
-							<a href="#" data-lightbox="img/Zotikon_DatabaseDesign.png" data-caption="Zotikon - Monitoring Station Database Design"><img
-								src="img/Zotikon_DatabaseDesign.png" class="img-responsive animDelay04 animated zoomIn" alt="portfolio"/></a>
-						</div>
-						<div class="col-sm-3">
-							<a href="#" data-lightbox="" data-caption="Image description"><img
-								src="" class="img-responsive animated zoomIn animDelay04" alt="TODO"/></a>
-						</div>
-						<div class="col-sm-3">
-							<a href="#" data-lightbox="img/work-11.jpg" data-caption="Image description"><img
-								src="" class="img-responsive animDelay04 animated zoomIn" alt="TODO"/></a>
-						</div>
-						<div class="col-sm-3">
-							<a href="#" data-lightbox="" data-caption="Image description"><img
-								src="" class="animDelay04 animated zoomIn img-responsive" alt="TODO"/></a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- gallery END -->
-			<!-- datasheets -->
-			<div class="bloc l-bloc bgc-white" id="datasheets">
-				<div class="container bloc-md">
-					<div class="row">
-						<div class="col-sm-12">
-							<h2 class="text-center mg-md ">Datasheets</h2>
-                            <p class="text-center sub-heading">
-                                The table below contains a list to the datasheets for all components in the Zotikon system.  The Digikey link
-                                is also provided for direct access to the distributor site.
-                            </p>
-                            <p class="text-center">
-                                TODO: More datasheets will be added for specific resistors and capacitors once those selections are finalized.
-                            </p>
-							<table>
-								<thead>
-									<tr>
-										<th class="text-center">Component</th>
-										<th class="text-center">Component Manufacturer &amp; P/N</th>
-										<th class="text-center">Datasheet Link</th>
-                                        <th class="text-center">Digikey Link</th>
-									</tr>
-								</thead>
-								<tbody>
-                                    <tr>
-										<td class="text-center">Radio/MCU</td>
-										<td class="text-center">Synapse SM200</td>
-										<td class="text-center"><a href="datasheets/sm220-datasheet.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
-                                        <td class="text-center"><a href="https://www.digikey.com/products/en?keywords=746-1031-1-ND" target="_blank">746-1031-1-ND</a></td>
-									</tr>
-									<tr>
-                                        <td class="text-center">Instrumentation Amplifier</td>
-										<td class="text-center">Analog Devices AD623ANZ</td>
-										<td class="text-center"><a href="datasheets/AD_AD623ANZ_Instrumentation_Amplifier.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
-                                        <td class="text-center"><a href="https://www.digikey.com/products/en?keywords=AD623ANZ" target="_blank">AD623ANZ-ND</a></td>
-									</tr>
-									<tr>
-										<td class="text-center">Temperature Sensor - Infrared</td>
-										<td class="text-center">Melexis MLX90615</td>
-										<td class="text-center"><a href="datasheets/MLX90615-Datasheet-Melexis.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
-                                        <td class="text-center"><a href="https://www.digikey.com/product-detail/en/melexis-technologies-nv/MLX90615SSG-DAA-000-TU/MLX90615SSG-DAA-000-TU-ND/2440563" target="_blank">MLX90615SSG-DAA-000-TU-ND</a></td>
-									</tr>
-									<tr>
-										<td class="text-center">Temperature Sensor - Contact</td>
-										<td class="text-center">Maxim Integrated DS1631</td>
-										<td class="text-center"><a href="datasheets/DS1631_Datasheet.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
-										<td class="text-center"><a href="https://www.digikey.com/product-detail/en/maxim-integrated/DS1631U-T-R/DS1631U-T-RCT-ND/4895452" target="_blank">DS1631U+T&amp;RCT-ND</a></td>
-									</tr>
-									<tr>
-										<td class="text-center">Monitoring Station USB Adapter</td>
-										<td class="text-center">Synapse SN220</td>
-										<td class="text-center"><a href="datasheets/SNAPstick_220_PB_August2016.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
-                                        <td class="text-center"><a href="https://www.digikey.com/products/en?keywords=Synapse%20SN220" target="_blank">746-1094-ND</a></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- datasheets END -->
 			<!-- source code -->
 			<div class="bloc d-bloc bgc-outer-space" id="source-code">
 				<div class="container bloc-lg">
@@ -433,6 +323,118 @@
 				</div>
 			</div>
 			<!-- source-code END -->
+			<!-- datasheets -->
+			<div class="bloc l-bloc bgc-white" id="datasheets">
+				<div class="container bloc-md">
+					<div class="row">
+						<div class="col-sm-12">
+							<h2 class="text-center mg-md ">Datasheets</h2>
+                            <p class="text-center sub-heading">
+                                The table below contains a list to the datasheets for all components in the Zotikon system.  The Digikey link
+                                is also provided for direct access to the distributor site.
+                            </p>
+							<table>
+								<thead>
+									<tr>
+										<th class="text-center">Component</th>
+										<th class="text-center">Component Manufacturer &amp; P/N</th>
+										<th class="text-center">Datasheet Link</th>
+                                        <th class="text-center">Distributor Link</th>
+									</tr>
+								</thead>
+								<tbody>
+                                    <tr>
+										<td class="text-center">Radio/MCU</td>
+										<td class="text-center">Synapse SM200P81</td>
+										<td class="text-center"><a href="datasheets/data-sheet-sm200p81-and-sm200pu1-1fb5823a.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+                                        <td class="text-center"><a href="https://www.digikey.com/product-detail/en/synapse-wireless/SM200P81/746-1031-1-ND/2813680" target="_blank">746-1031-1-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Radio/MCU</td>
+										<td class="text-center">Synapse SM220UF1</td>
+										<td class="text-center"><a href="datasheets/data-sheet-sm220-rf-module-f9768444.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+                                        <td class="text-center"><a href="https://www.digikey.com/product-detail/en/synapse-wireless/SM220UF1/746-1053-1-ND/5171418" target="_blank">746-1053-1-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Radio/MCU Expansion Board</td>
+										<td class="text-center">Synapse RF200P81</td>
+										<td class="text-center"><a href="datasheets/data-sheet-rf200p81-and-rf200pu1-8916af41.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+                                        <td class="text-center"><a href="https://www.digikey.com/product-detail/en/synapse-wireless/RF200P81/746-1022-ND/2804294" target="_blank">746-1022-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Radio/MCU Expansion Board</td>
+										<td class="text-center">Synapse RF220UF1</td>
+										<td class="text-center"><a href="datasheets/datasheet-synapse-rf220uf1-02f8e607.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+                                        <td class="text-center"><a href="https://www.digikey.com/product-detail/en/synapse-wireless/RF220UF1/745-1054-ND/5171419" target="_blank">745-1054-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Radio/MCU Development Board</td>
+										<td class="text-center">Synapse SN171GG-NR</td>
+										<td class="text-center"><a href="datasheets/quick-start-guide-sn171-protoboard.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+                                        <td class="text-center"><a href="https://www.digikey.com/products/en/rf-if-and-rfid/rf-accessories/866?k=synapse%20sn171" target="_blank">746-1014-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Monitoring Station USB Adapter</td>
+										<td class="text-center">Synapse SN220-001</td>
+										<td class="text-center"><a href="datasheets/SNAPstick_220_PB_August2016.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+                                        <td class="text-center"><a href="https://www.digikey.com/product-detail/en/synapse-wireless/SN220-001/746-1094-ND/6035708" target="_blank">746-1094-ND</a></td>
+									</tr>
+									<tr>
+                                        <td class="text-center">Instrumentation Amplifier</td>
+										<td class="text-center">Analog Devices AD623ANZ</td>
+										<td class="text-center"><a href="datasheets/AD_AD623ANZ_Instrumentation_Amplifier.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+                                        <td class="text-center"><a href="https://www.digikey.com/products/en?keywords=AD623ANZ" target="_blank">AD623ANZ-ND</a></td>
+									</tr>
+									<tr>
+                                        <td class="text-center">Voltage Reference</td>
+										<td class="text-center">Texas Instruments REF2033AIDDCT</td>
+										<td class="text-center"><a href="datasheets/TI-REF2033_Datasheet.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+                                        <td class="text-center"><a href="https://www.digikey.com/products/en?keywords=296-40487-1-ND" target="_blank">296-40487-1-ND</a></td>
+									</tr>
+									<tr>
+                                        <td class="text-center">Foam Electrodes with Conductive Gel</td>
+										<td class="text-center">3M W-3M2259-50</td>
+										<td class="text-center">N/A</td>
+                                        <td class="text-center"><a href="http://www.theemsstore.com/store/product.aspx/productId/1452/3M-Red-Dot-Foam-Electrodes/" target="_blank">W-3M2259-50</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Temperature Sensor - Contact</td>
+										<td class="text-center">Maxim Integrated DS1631U+T&amp;R</td>
+										<td class="text-center"><a href="datasheets/DS1631_Datasheet.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+										<td class="text-center"><a href="https://www.digikey.com/product-detail/en/maxim-integrated/DS1631U-T-R/DS1631U-T-RCT-ND/4895452" target="_blank">DS1631U+T&amp;RCT-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Resistor - 100 Ohm</td>
+										<td class="text-center">Stackpole Electronics Inc. CF14JT100R</td>
+										<td class="text-center"><a href="datasheets/SEI-CF_CFM.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+										<td class="text-center"><a href="https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF14JT100R/CF14JT100RCT-ND/1830327" target="_blank">CF14JT100RCT-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Resistor - 10 kOhm</td>
+										<td class="text-center">Stackpole Electronics Inc. CF14JT10K0</td>
+										<td class="text-center"><a href="datasheets/SEI-CF_CFM.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+										<td class="text-center"><a href="https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF14JT10K0/CF14JT10K0CT-ND/1830374" target="_blank">CF14JT10K0CT-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Resistor - 316 kOhm</td>
+										<td class="text-center">Stackpole Electronics Inc. RNF14FTD316K</td>
+										<td class="text-center"><a href="datasheets/SEI-RNF_RNMF.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+										<td class="text-center"><a href="https://www.digikey.com/product-detail/en/stackpole-electronics-inc/RNF14FTD316K/RNF14FTD316KCT-ND/1975183" target="_blank">RNF14FTD316KCT-ND</a></td>
+									</tr>
+									<tr>
+										<td class="text-center">Capacitor - 10 &micro;Farad</td>
+										<td class="text-center">Nichicon UVP1H100MED1TD</td>
+										<td class="text-center"><a href="datasheets/e-uvp.pdf" target="_blank"><span class="fa fa-file-pdf-o icon-sm icon-white"></span></a></td>
+										<td class="text-center"><a href="https://www.digikey.com/product-detail/en/nichicon/UVP1H100MED1TD/493-12698-1-ND/4328315" target="_blank">493-12698-1-ND</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- datasheets END -->
+
 			<!-- ScrollToTop Button -->
 			<a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span
 				class="fa fa-chevron-up"></span></a>
