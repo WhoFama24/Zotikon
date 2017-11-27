@@ -781,6 +781,28 @@ bom-title {
 }
 
 
+#source-code a {
+	font-size: inherit;
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	font-variant: inherit;
+	color: #333;
+}
+#source-code a:hover {
+	color: rgba(51, 51, 51, 0.65);
+}
+#source-code a:visited {
+	font-size: inherit;
+	font-family: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+	font-variant: inherit;
+	text-decoration: none;
+	color: #333;
+}
+
+
 
 
 /* = Mobile adjustments

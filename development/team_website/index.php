@@ -26,7 +26,7 @@
 				<div class="container">
 					<nav class="navbar row">
 						<div class="navbar-header">
-							<a class="navbar-brand tc-white" href="index.html"><span class="et-icon-rss icon-sm icon-white zoomIn animated tc-white"></span> Zotikon</a>
+							<a class="navbar-brand tc-white" href="index.php"><span class="et-icon-rss icon-sm icon-white zoomIn animated tc-white"></span> Zotikon</a>
 							<button id="nav-toggle" type="button" class="ui-navbar-toggle navbar-toggle" data-toggle="collapse"
 								data-target=".navbar-1">
 							<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span
@@ -65,10 +65,6 @@
 							<p class="dis-item text-center tc-white animated fadeInUp animDelay02">
 								Athlete Analysis System
 							</p>
-							<div class="text-center">
-								<a class="btn  btn-md btn-wire wire-btn-platinum animDelay06 animated fadeInUp"
-									onclick="scrollToTarget('#deliverables')">Deliverables</a>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -129,51 +125,51 @@
 								<tbody>
                                     <tr>
 										<td>Product Specification</td>
-										<td><a href="deliverables/Zotikon_ProductSpecification_Draft.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_ProductSpecification_Draft.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
                                         <td>N/A</td>
-										<td><a href="deliverables/Zotikon_ProductSpecification_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_ProductSpecification_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
 									</tr>
 									<tr>
                                         <td>Problem Statement</td>
-										<td><a href="deliverables/Zotikon_ProblemStatement_Draft.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-										<td><a href="deliverables/Zotikon_ProblemStatement_Final.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-                                        <td><a href="deliverables/Zotikon_ProblemStatement_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_ProblemStatement_Draft.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
+										<td><a href="deliverables/Zotikon_ProblemStatement_Final.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_ProblemStatement_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
 									</tr>
 									<tr>
 										<td>Design Constraints</td>
-										<td><a href="deliverables/Zotikon_DesignConstraints_Draft.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-										<td><a href="deliverables/Zotikon_DesignConstraints_Final.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-                                        <td><a href="deliverables/Zotikon_DesignConstraints_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_DesignConstraints_Draft.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
+										<td><a href="deliverables/Zotikon_DesignConstraints_Final.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_DesignConstraints_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
 									</tr>
 									<tr>
 										<td>Approach</td>
-										<td><a href="deliverables/Zotikon_Approach_Draft.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-										<td><a href="deliverables/Zotikon_Approach_Final.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-                                        <td><a href="deliverables/Zotikon_Approach_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_Approach_Draft.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
+										<td><a href="deliverables/Zotikon_Approach_Final.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_Approach_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
 									</tr>
                                     <tr>
 										<td>Mid-Semester Presentation</td>
-										<td><a href="deliverables/Zotikon_MidSemesterPresentation_Draft.pptx" target="_blank"><span class="fa fa-file-powerpoint-o"></span></a></td>
-										<td><a href="deliverables/Zotikon_MidSemesterPresentation_Final.pptx" target="_blank"><span class="fa fa-file-powerpoint-o"></span></a></td>
-                                        <td><a href="deliverables/Zotikon_MidSemesterPresentation_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_MidSemesterPresentation_Draft.pptx" target="_blank"><span class="fa fa-file-powerpoint-o fa-lg"></span></a></td>
+										<td><a href="deliverables/Zotikon_MidSemesterPresentation_Final.pptx" target="_blank"><span class="fa fa-file-powerpoint-o fa-lg"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_MidSemesterPresentation_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
 									</tr>
                                     <tr>
 										<td>Executive Summary</td>
-										<td><a href="deliverables/Zotikon_ExecutiveSummary_Draft.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-										<td><a href="deliverables/Zotikon_ExecutiveSummary_Final.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
-                                        <td><a href="deliverables/Zotikon_ExecutiveSummary_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_ExecutiveSummary_Draft.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
+										<td><a href="deliverables/Zotikon_ExecutiveSummary_Final.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_ExecutiveSummary_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
 									</tr>
                                     <tr>
 										<td>Evaluation</td>
-										<td><a href="deliverables/Zotikon_Evaluation_Draft.docx" target="_blank"><span class="fa fa-file-word-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_Evaluation_Draft.docx" target="_blank"><span class="fa fa-file-word-o fa-lg"></span></a></td>
 										<td></td>
                                         <td></td>
 									</tr>
                                     <tr>
 										<td>Final Presentation</td>
-										<td><a href="deliverables/Zotikon_FinalPresentation_Draft.pptx" target="_blank"><span class="fa fa-file-powerpoint-o"></span></a></td>
-										<td><a href="deliverables/Zotikon_FinalPresentation_Final.pptx" target="_blank"><span class="fa fa-file-powerpoint-o"></span></a></td>
-                                        <td><a href="deliverables/Zotikon_FinalPresentation_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+										<td><a href="deliverables/Zotikon_FinalPresentation_Draft.pptx" target="_blank"><span class="fa fa-file-powerpoint-o fa-lg"></span></a></td>
+										<td><a href="deliverables/Zotikon_FinalPresentation_Final.pptx" target="_blank"><span class="fa fa-file-powerpoint-o fa-lg"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_FinalPresentation_Final.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
 									</tr>
 									<tr>
 										<td>Final Design Document</td>
@@ -185,7 +181,7 @@
 										<td>Schematics</td>
 										<td>N/A</td>
 										<td>N/A</td>
-                                        <td><a href="deliverables/Zotikon_Schematic.pdf" target="_blank"><span class="fa fa-file-pdf-o"></span></a></td>
+                                        <td><a href="deliverables/Zotikon_Schematic.pdf" target="_blank"><span class="fa fa-file-pdf-o fa-lg"></span></a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -221,7 +217,7 @@
 							</p>
                             <div class="text-center">
 								<a class="btn  btn-md btn-wire wire-btn-outer-space animated fadeInUp"
-									href="team/resumes/bruce_bowlin.pdf" target="_blank">Resume</a>
+									href="team/resumes/Resume_BruceBowlin.pdf" target="_blank">Resume</a>
 							</div>
 						</div>
 						<div class="col-sm-2">
@@ -272,7 +268,7 @@
 							</p>
                             <div class="text-center">
 								<a class="btn  btn-md btn-wire wire-btn-outer-space animDelay06 animated fadeInUp"
-									href="team/resumes/van_kingma.pdf" target="_blank">Resume</a>
+									href="team/resumes/Resume_VanKingma.pdf" target="_blank">Resume</a>
 							</div>
 						</div>
                         <div class="col-sm-2">
@@ -312,7 +308,7 @@
                     <div class="row">
                         <pre>
                             // Clone Latest Repository
-                            https://github.com/WhoFama24/zotikon.git</pre>
+                            <a href="https://github.com/WhoFama24/zotikon" target="_blank">https://github.com/WhoFama24/zotikon.git</a></pre>
                         <pre>
                             // Clone Fall Semester 2017 Release
                             https://github.com/WhoFama24/zotikon.git --branch fall17_release</pre>
