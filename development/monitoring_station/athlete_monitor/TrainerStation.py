@@ -1,11 +1,9 @@
 """TrainerStation.py
-
     This file is used to connect to the usb snapstick in order to collect data from the athlete worn devices. This
     function schedules a poll for each device that receives its heart rate and temperature. This program will buffer
     in responses for the WAIT_FOR_INITIAL_BUFFER_SECONDS. It polls devices every DEVICE_POLL_INTERVAL_SECONDS_SECONDS.
     Lastly, it will write to the data base for each device after we wait for the buffer to fill every
     DATABASE_UPDATE_INTERVAL_SECONDS_SECONDS.
-
     Make sure that the snapstick is not connected to portal or has any program loaded on it. This may cause us to not
     be able to connect to the snapstick."""
 
@@ -148,11 +146,12 @@ class BridgeVersionClient(object):
         if heart_rate > 220:
             heart_rate = 0
 
-        print "Athlete " + str(athlete_num) + ":        heartRate: " + str(heart_rate) + "\n"
+        print "Athlete " + str(athlete_num) + ":        heartRate: " + str(heart_rate) + "      temperature: " + \
+              str(data_list[10]) + "\n"
 
         # update the buffer in the appropriate number for our data
         t = int(time.time())
-        self.buffer[athlete_num - 1].append([str(athlete_num), str(heart_rate), str(data_list[1]), str(t)])
+        self.buffer[athlete_num - 1].append([str(athlete_num), str(heart_rate), str(data_list[10]), str(t)])
 
     def schedule_get_data_request_events_and_timeout(self):
         """This function creates the events on a certain time interval that allow us to send data back and forth
@@ -181,13 +180,6 @@ class BridgeVersionClient(object):
         """This function will write data to the database."""
         global USER, PWD, DBNAME, DBUSER, DBUSR_PWD, EVENT, WAIT_FOR_INITIAL_BUFFER_SECONDS, \
             DEVICE_POLL_INTERVAL_SECONDS
-
-        # TODO insert logic get correct bpm and temp to write to data base for every device
-
-        # only write to data base if we are connect to the beagle-bone
-        # if self.connected_to_beagle_bone:
-        #     client = InfluxDBClient(self.host, self.port, USER, PWD, DBNAME)
-        #     client.switch_user(DBUSER, DBUSR_PWD)
 
         # self.print_buffer()
 
@@ -227,6 +219,7 @@ class BridgeVersionClient(object):
 
     def stop(self):
         """Stop the SNAPconnect instance and finish the test case."""
+
         self.timeout.Stop()
         self.event1.Stop()
         self.event2.Stop()
@@ -268,4 +261,3 @@ def main(connected_to_beagle_bone=False, event="Event_test"):
 if __name__ == "__main__":
     args = parse_args()
     main(connected_to_beagle_bone=args.conbb, event=args.event)
-
