@@ -1,8 +1,8 @@
 /**
  * Resize function without multiple trigger
- * 
+ *
  * Usage:
- * $(window).smartresize(function(){  
+ * $(window).smartresize(function(){
  *     // code here
  * });
  */
@@ -16,8 +16,8 @@
             var obj = this, args = arguments;
             function delayed () {
                 if (!execAsap)
-                    func.apply(obj, args); 
-                timeout = null; 
+                    func.apply(obj, args);
+                timeout = null;
             }
 
             if (timeout)
@@ -25,11 +25,11 @@
             else if (execAsap)
                 func.apply(obj, args);
 
-            timeout = setTimeout(delayed, threshold || 100); 
+            timeout = setTimeout(delayed, threshold || 100);
         };
     };
 
-    // smartresize 
+    // smartresize
     jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 
 })(jQuery,'smartresize');
@@ -49,8 +49,8 @@ var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
     $NAV_MENU = $('.nav_menu'),
     $FOOTER = $('footer');
 
-	
-	
+
+
 // Sidebar
 function init_sidebar() {
 // TODO: This is some kind of easy fix, maybe we can improve this
@@ -99,10 +99,10 @@ var setContentHeight = function () {
         }
     });
 
-// toggle small or large menu 
+// toggle small or large menu
 $MENU_TOGGLE.on('click', function() {
 		console.log('clicked - menu toggle');
-		
+
 		if ($BODY.hasClass('nav-md')) {
 			$SIDEBAR_MENU.find('li.active ul').hide();
 			$SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
@@ -128,7 +128,7 @@ $MENU_TOGGLE.on('click', function() {
 	}).parent().addClass('active');
 
 	// recompute content when resizing
-	$(window).smartresize(function(){  
+	$(window).smartresize(function(){
 		setContentHeight();
 	});
 
@@ -156,15 +156,15 @@ $(document).ready(function() {
         var $BOX_PANEL = $(this).closest('.x_panel'),
             $ICON = $(this).find('i'),
             $BOX_CONTENT = $BOX_PANEL.find('.x_content');
-        
+
         // fix for some div with hardcoded fix class
         if ($BOX_PANEL.attr('style')) {
             $BOX_CONTENT.slideToggle(200, function(){
                 $BOX_PANEL.removeAttr('style');
             });
         } else {
-            $BOX_CONTENT.slideToggle(200); 
-            $BOX_PANEL.css('height', 'auto');  
+            $BOX_CONTENT.slideToggle(200);
+            $BOX_PANEL.css('height', 'auto');
         }
 
         $ICON.toggleClass('fa-chevron-up fa-chevron-down');
@@ -299,7 +299,7 @@ if (typeof NProgress != 'undefined') {
     });
 }
 
-	
+
 	  //hover and retain popover when on popover content
         var originalLeave = $.fn.popover.Constructor.prototype.leave;
         $.fn.popover.Constructor.prototype.leave = function(obj) {
@@ -344,7 +344,7 @@ if (typeof NProgress != 'undefined') {
         }
         return input;
     }
-	  
+
 var arr_bpmTextboxes = document.getElementsByClassName("bpm-display-text");
 var arr_tempTextboxes = document.getElementsByClassName("temp-display-text");
 var i_tempTextboxIndex = 0;
@@ -353,15 +353,15 @@ var plot_player_01;
 var plot_player_02;
 var plot_player_03;
 	function init_flot_chart() {
-		
+
 		if( typeof ($.plot) === 'undefined'){ return; }
-		
+
 		console.log('init_flot_chart');
-		
+
         var arr_data1 = [];
         var arr_data2 = [];
         var arr_data3 = [];
-        
+
         var heart_rate_chart_plot_settings = {
             series: {
                 lines: {
@@ -376,7 +376,7 @@ var plot_player_03;
                 },
                 points: {
                     radius: 2,
-                    show: true,
+                    show: false,
                 },
                 shadowSize: 2
             },
@@ -412,11 +412,11 @@ var plot_player_03;
                 ticks: 8,
                 tickColor: "rgba(51, 51, 51, 0.06)",
                 min: 0,
-                max: 1000
+                max: 220
             },
             tooltip: false
         };
-        
+
         $.ajax({
             url: "http://192.168.7.2/influxdb/query",
             type: 'GET',
@@ -425,7 +425,7 @@ var plot_player_03;
                 db: "ZotikonEventTSDB",
                 pretty: "true",
                 epoch: "us",
-                q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='1'"
+                q: "SELECT heartRate,temperature FROM Event_ZotikonSystemTest WHERE playerId='1'"
             },
             success: function(response) {
                 var values = response.results[0].series[0].values;
@@ -433,7 +433,7 @@ var plot_player_03;
                 for (var i = 0; i < values.length; i++) {
                     arr_data1.push([values[i][0], values[i][1]]);
                 }
-                
+
                 if ($("#chart_plot_01").length){
                     console.log('Plot1');
                     var plot_data = new Array(arr_data1);
@@ -442,18 +442,18 @@ var plot_player_03;
 
                 arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
                 arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
-                
+
                 last_temp_value = values[values.length - 1][2];
                 if (last_temp_value < 35) arr_tempTextboxes[i_tempTextboxIndex].style.color = "blue";
                 else if (last_temp_value > 38.25) arr_tempTextboxes[i_tempTextboxIndex].style.color = "red";
                 else arr_tempTextboxes[i_tempTextboxIndex].style.color = "#73879C";
-                
+
                 var last_bpm_value = values[values.length - 1][1];
                 if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(5, 175, 255, 1)";
                 if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(112, 255, 76, 1)";
                 if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 216, 76, 1)";
                 if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 76, 76, 1)";
-                
+
                 i_tempTextboxIndex++;
                 i_bpmTextboxIndex++;
             },
@@ -461,7 +461,7 @@ var plot_player_03;
                 console.log(response);
             }
         });
-        
+
         $.ajax({
             url: "http://192.168.7.2/influxdb/query",
             type: 'GET',
@@ -470,7 +470,7 @@ var plot_player_03;
                 db: "ZotikonEventTSDB",
                 epoch: "us",
                 pretty: "true",
-                q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='2'"
+                q: "SELECT heartRate,temperature FROM Event_ZotikonSystemTest WHERE playerId='2'"
             },
             success: function(response) {
                 var values = response.results[0].series[0].values;
@@ -479,27 +479,27 @@ var plot_player_03;
                 for (var i = 0; i < values.length; i++) {
                     arr_data2.push(new Array(((values[i][0] - init_time) / 1000), values[i][1]));
                 }
-                
+
                 if ($("#chart_plot_02").length) {
                     console.log('Plot2');
                     var plot_data = new Array(arr_data2);
                     plot_player_02 = $.plot( $("#chart_plot_02"), plot_data, heart_rate_chart_plot_settings );
                 }
-                
+
                 arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
                 arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
-                
+
                 last_temp_value = values[values.length - 1][2];
                 if (last_temp_value < 35) arr_tempTextboxes[i_tempTextboxIndex].style.color = "blue";
                 else if (last_temp_value > 38.25) arr_tempTextboxes[i_tempTextboxIndex].style.color = "red";
                 else arr_tempTextboxes[i_tempTextboxIndex].style.color = "#73879C";
-                
+
                 var last_bpm_value = values[values.length - 1][1];
                 if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(5, 175, 255, 1)";
                 if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(112, 255, 76, 1)";
                 if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 216, 76, 1)";
                 if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 76, 76, 1)";
-                
+
                 i_tempTextboxIndex++;
                 i_bpmTextboxIndex++;
             },
@@ -507,7 +507,7 @@ var plot_player_03;
                 console.log(response);
             }
         });
-        
+
         $.ajax({
             url: "http://192.168.7.2/influxdb/query",
             type: 'GET',
@@ -516,7 +516,7 @@ var plot_player_03;
                 db: "ZotikonEventTSDB",
                 epoch: "us",
                 pretty: "true",
-                q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='3'"
+                q: "SELECT heartRate,temperature FROM Event_ZotikonSystemTest WHERE playerId='3'"
             },
             success: function(response) {
                 var values = response.results[0].series[0].values;
@@ -525,27 +525,27 @@ var plot_player_03;
                 for (var i = 0; i < values.length; i++) {
                     arr_data3.push(new Array(((values[i][0] - init_time) / 1000), values[i][1]));
                 }
-                
+
                 if ($("#chart_plot_03").length) {
                     console.log('Plot3');
                     var plot_data = new Array(arr_data3);
                     plot_player_03 = $.plot( $("#chart_plot_03"), plot_data, heart_rate_chart_plot_settings );
                 }
-                
+
                 arr_tempTextboxes[i_tempTextboxIndex].innerHTML = values[values.length - 1][2].toString() + " &#8451;";
                 arr_bpmTextboxes[i_bpmTextboxIndex].innerHTML = values[values.length - 1][1].toString() + " BPM";
-                
+
                 last_temp_value = values[values.length - 1][2];
                 if (last_temp_value < 35) arr_tempTextboxes[i_tempTextboxIndex].style.color = "blue";
                 else if (last_temp_value > 38.25) arr_tempTextboxes[i_tempTextboxIndex].style.color = "red";
                 else arr_tempTextboxes[i_tempTextboxIndex].style.color = "#73879C";
-                
+
                 var last_bpm_value = values[values.length - 1][1];
                 if (last_bpm_value >= 110 && last_bpm_value < 132) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(5, 175, 255, 1)";
                 if (last_bpm_value >= 132 && last_bpm_value < 154) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(112, 255, 76, 1)";
                 if (last_bpm_value >= 154 && last_bpm_value < 187) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 216, 76, 1)";
                 if (last_bpm_value >= 187 && last_bpm_value < 220) arr_bpmTextboxes[i_bpmTextboxIndex].style.color = "rgba(255, 76, 76, 1)";
-                
+
                 i_tempTextboxIndex++;
                 i_bpmTextboxIndex++;
             },
@@ -553,8 +553,8 @@ var plot_player_03;
                 console.log(response);
             }
         });
-		
-        
+
+
 	}
 
     setInterval(function() {
@@ -569,7 +569,7 @@ var plot_player_03;
                     db: "ZotikonEventTSDB",
                     pretty: "true",
                     epoch: "us",
-                    q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='1'"
+                    q: "SELECT heartRate,temperature FROM Event_ZotikonSystemTest WHERE playerId='1'"
                 },
                 success: function(response) {
                     var values = response.results[0].series[0].values;
@@ -582,6 +582,7 @@ var plot_player_03;
     //                    console.log('Updating Plot1');
                         var plot_data = new Array(arr_data1);
                         plot_player_01.setData(plot_data);
+                        plot_player_01.setupGrid();
                         plot_player_01.draw();
                     }
 
@@ -589,6 +590,7 @@ var plot_player_03;
                     arr_bpmTextboxes[0].innerHTML = values[values.length - 1][1].toString() + " BPM";
 
                     last_temp_value = values[values.length - 1][2];
+                    console.log(last_temp_value);
                     if (last_temp_value < 35) arr_tempTextboxes[0].style.color = "blue";
                     else if (last_temp_value > 38.25) arr_tempTextboxes[0].style.color = "red";
                     else arr_tempTextboxes[0].style.color = "#73879C";
@@ -613,7 +615,7 @@ var plot_player_03;
                     db: "ZotikonEventTSDB",
                     epoch: "us",
                     pretty: "true",
-                    q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='2'"
+                    q: "SELECT heartRate,temperature FROM Event_ZotikonSystemTest WHERE playerId='2'"
                 },
                 success: function(response) {
                     var values = response.results[0].series[0].values;
@@ -627,6 +629,7 @@ var plot_player_03;
     //                    console.log('Updating Plot2');
                         var plot_data = new Array(arr_data2);
                         plot_player_02.setData(plot_data);
+                        plot_player_02.setupGrid();
                         plot_player_02.draw();
                     }
 
@@ -658,7 +661,7 @@ var plot_player_03;
                     db: "ZotikonEventTSDB",
                     epoch: "us",
                     pretty: "true",
-                    q: "SELECT heartRate,temperature FROM Event_005 WHERE playerId='3'"
+                    q: "SELECT heartRate,temperature FROM Event_ZotikonSystemTest WHERE playerId='3'"
                 },
                 success: function(response) {
                     var values = response.results[0].series[0].values;
@@ -672,6 +675,7 @@ var plot_player_03;
     //                    console.log('Updating Plot3');
                         var plot_data = new Array(arr_data3);
                         plot_player_03.setData(plot_data);
+                        plot_player_03.setupGrid();
                         plot_player_03.draw();
                     }
 
@@ -695,15 +699,15 @@ var plot_player_03;
                 }
             });
     }, 1000);     // Update AJAX data every 1 second
-	
-		
+
+
 	/* STARRR */
-			
+
 	function init_starrr() {
-		
+
 		if( typeof (starrr) === 'undefined'){ return; }
 		console.log('init_starrr');
-		
+
 		$(".stars").starrr();
 
 		$('.stars-existing').starrr({
@@ -717,20 +721,20 @@ var plot_player_03;
 		$('.stars-existing').on('starrr:change', function (e, value) {
 		  $('.stars-count-existing').html(value);
 		});
-		
+
 	  };
-	
-	
+
+
 	function init_JQVmap(){
 
-		//console.log('check init_JQVmap [' + typeof (VectorCanvas) + '][' + typeof (jQuery.fn.vectorMap) + ']' );	
-		
+		//console.log('check init_JQVmap [' + typeof (VectorCanvas) + '][' + typeof (jQuery.fn.vectorMap) + ']' );
+
 		if(typeof (jQuery.fn.vectorMap) === 'undefined'){ return; }
-		
+
 		console.log('init_JQVmap');
-	     
+
 			if ($('#world-map-gdp').length ){
-		 
+
 				$('#world-map-gdp').vectorMap({
 					map: 'world_en',
 					backgroundColor: null,
@@ -743,11 +747,11 @@ var plot_player_03;
 					scaleColors: ['#E6F2F0', '#149B7E'],
 					normalizeFunction: 'polynomial'
 				});
-			
+
 			}
-			
+
 			if ($('#usa_map').length ){
-			
+
 				$('#usa_map').vectorMap({
 					map: 'usa_en',
 					backgroundColor: null,
@@ -760,17 +764,17 @@ var plot_player_03;
 					scaleColors: ['#E6F2F0', '#149B7E'],
 					normalizeFunction: 'polynomial'
 				});
-			
+
 			}
-			
+
 	};
-			
-	    
+
+
 	function init_skycons(){
-				
+
 			if( typeof (Skycons) === 'undefined'){ return; }
 			console.log('init_skycons');
-		
+
 			var icons = new Skycons({
 				"color": "#73879C"
 			  }),
@@ -785,18 +789,18 @@ var plot_player_03;
 			  icons.set(list[i], list[i]);
 
 			icons.play();
-	
-	}  
-	   
-	   
+
+	}
+
+
 	function init_chart_doughnut(){
-				
+
 		if( typeof (Chart) === 'undefined'){ return; }
-		
+
 		console.log('init_chart_doughnut');
-	 
+
 		if ($('.canvasDoughnut').length){
-			
+
 		var chart_doughnut_settings = {
 				type: 'doughnut',
 				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
@@ -826,31 +830,31 @@ var plot_player_03;
 						]
 					}]
 				},
-				options: { 
-					legend: false, 
-					responsive: false 
+				options: {
+					legend: false,
+					responsive: false
 				}
 			}
-		
+
 			$('.canvasDoughnut').each(function(){
-				
+
 				var chart_element = $(this);
 				var chart_doughnut = new Chart( chart_element, chart_doughnut_settings);
-				
-			});			
-		
-		}  
-	   
+
+			});
+
+		}
+
 	}
-	   
+
 	function init_gauge() {
-			
+
 		if( typeof (Gauge) === 'undefined'){ return; }
-		
+
 		console.log('init_gauge [' + $('.gauge-chart').length + ']');
-		
+
 		console.log('init_gauge');
-		
+
 
 		  var chart_gauge_settings = {
 		  lines: 12,
@@ -867,53 +871,53 @@ var plot_player_03;
 		  strokeColor: '#F0F3F3',
 		  generateGradient: true
 	  };
-		
-		
-		if ($('#chart_gauge_01').length){ 
-		
+
+
+		if ($('#chart_gauge_01').length){
+
 			var chart_gauge_01_elem = document.getElementById('chart_gauge_01');
 			var chart_gauge_01 = new Gauge(chart_gauge_01_elem).setOptions(chart_gauge_settings);
-			
-		}	
-		
-		
-		if ($('#gauge-text').length){ 
-		
+
+		}
+
+
+		if ($('#gauge-text').length){
+
 			chart_gauge_01.maxValue = 6000;
 			chart_gauge_01.animationSpeed = 32;
 			chart_gauge_01.set(3200);
 			chart_gauge_01.setTextField(document.getElementById("gauge-text"));
-		
+
 		}
-		
+
 		if ($('#chart_gauge_02').length){
-		
+
 			var chart_gauge_02_elem = document.getElementById('chart_gauge_02');
 			var chart_gauge_02 = new Gauge(chart_gauge_02_elem).setOptions(chart_gauge_settings);
-			
+
 		}
-		
-		
+
+
 		if ($('#gauge-text2').length){
-			
+
 			chart_gauge_02.maxValue = 220;
 			chart_gauge_02.animationSpeed = 32;
 			chart_gauge_02.set(118);
 			chart_gauge_02.setTextField(document.getElementById("gauge-text2"));
-		
+
 		}
-	
-	
-	}   
-	   	   
+
+
+	}
+
 	/* SPARKLINES */
-			
+
 		function init_sparklines() {
-			
+
 			if(typeof (jQuery.fn.sparkline) === 'undefined'){ return; }
-			console.log('init_sparklines'); 
-			
-			
+			console.log('init_sparklines');
+
+
 			$(".sparkline_one").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 4, 5, 6, 3, 5, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
 				type: 'bar',
 				height: '125',
@@ -924,20 +928,20 @@ var plot_player_03;
 				barSpacing: 2,
 				barColor: '#26B99A'
 			});
-			
-			
+
+
 			$(".sparkline_two").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
 				type: 'bar',
 				height: '40',
 				barWidth: 9,
 				colorMap: {
-					'7': '#a1a1a1'	
+					'7': '#a1a1a1'
 				},
 				barSpacing: 2,
 				barColor: '#26B99A'
 			});
-			
-			
+
+
 			$(".sparkline_three").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 7, 5, 4, 3, 5, 6], {
 				type: 'line',
 				width: '200',
@@ -948,8 +952,8 @@ var plot_player_03;
 				spotColor: '#26B99A',
 				minSpotColor: '#26B99A'
 			});
-			
-			
+
+
 			$(".sparkline11").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 6, 2, 4, 3, 4, 5, 4, 5, 4, 3], {
 				type: 'bar',
 				height: '40',
@@ -960,8 +964,8 @@ var plot_player_03;
 				barSpacing: 2,
 				barColor: '#26B99A'
 			});
-			
-			
+
+
 			$(".sparkline22").sparkline([2, 4, 3, 4, 7, 5, 4, 3, 5, 6, 2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 6], {
 				type: 'line',
 				height: '40',
@@ -972,8 +976,8 @@ var plot_player_03;
 				spotColor: '#34495E',
 				minSpotColor: '#34495E'
 			});
-	
-	
+
+
 			$(".sparkline_bar").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 4, 5, 6, 3, 5], {
 				type: 'bar',
 				colorMap: {
@@ -981,8 +985,8 @@ var plot_player_03;
 				},
 				barColor: '#26B99A'
 			});
-			
-			
+
+
 			$(".sparkline_area").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7], {
 				type: 'line',
 				lineColor: '#26B99A',
@@ -995,8 +999,8 @@ var plot_player_03;
 				spotRadius: 2.5,
 				width: 85
 			});
-			
-			
+
+
 			$(".sparkline_line").sparkline([2, 4, 3, 4, 5, 4, 5, 4, 3, 4, 5, 6, 4, 5, 6, 3, 5], {
 				type: 'line',
 				lineColor: '#26B99A',
@@ -1005,14 +1009,14 @@ var plot_player_03;
 				spotColor: '#34495E',
 				minSpotColor: '#34495E'
 			});
-			
-			
+
+
 			$(".sparkline_pie").sparkline([1, 1, 2, 1], {
 				type: 'pie',
 				sliceColors: ['#26B99A', '#ccc', '#75BCDD', '#D66DE2']
 			});
-			
-			
+
+
 			$(".sparkline_discreet").sparkline([4, 6, 7, 7, 4, 3, 2, 1, 4, 4, 2, 4, 3, 7, 8, 9, 7, 6, 4, 3], {
 				type: 'discrete',
 				barWidth: 3,
@@ -1020,17 +1024,17 @@ var plot_player_03;
 				width: '85',
 			});
 
-			
-		};   
-	   
-	   
+
+		};
+
+
 	   /* AUTOCOMPLETE */
-			
+
 		function init_autocomplete() {
-			
+
 			if( typeof (autocomplete) === 'undefined'){ return; }
 			console.log('init_autocomplete');
-			
+
 			var countries = { AD:"Andorra",A2:"Andorra Test",AE:"United Arab Emirates",AF:"Afghanistan",AG:"Antigua and Barbuda",AI:"Anguilla",AL:"Albania",AM:"Armenia",AN:"Netherlands Antilles",AO:"Angola",AQ:"Antarctica",AR:"Argentina",AS:"American Samoa",AT:"Austria",AU:"Australia",AW:"Aruba",AX:"Åland Islands",AZ:"Azerbaijan",BA:"Bosnia and Herzegovina",BB:"Barbados",BD:"Bangladesh",BE:"Belgium",BF:"Burkina Faso",BG:"Bulgaria",BH:"Bahrain",BI:"Burundi",BJ:"Benin",BL:"Saint Barthélemy",BM:"Bermuda",BN:"Brunei",BO:"Bolivia",BQ:"British Antarctic Territory",BR:"Brazil",BS:"Bahamas",BT:"Bhutan",BV:"Bouvet Island",BW:"Botswana",BY:"Belarus",BZ:"Belize",CA:"Canada",CC:"Cocos [Keeling] Islands",CD:"Congo - Kinshasa",CF:"Central African Republic",CG:"Congo - Brazzaville",CH:"Switzerland",CI:"Côte d’Ivoire",CK:"Cook Islands",CL:"Chile",CM:"Cameroon",CN:"China",CO:"Colombia",CR:"Costa Rica",CS:"Serbia and Montenegro",CT:"Canton and Enderbury Islands",CU:"Cuba",CV:"Cape Verde",CX:"Christmas Island",CY:"Cyprus",CZ:"Czech Republic",DD:"East Germany",DE:"Germany",DJ:"Djibouti",DK:"Denmark",DM:"Dominica",DO:"Dominican Republic",DZ:"Algeria",EC:"Ecuador",EE:"Estonia",EG:"Egypt",EH:"Western Sahara",ER:"Eritrea",ES:"Spain",ET:"Ethiopia",FI:"Finland",FJ:"Fiji",FK:"Falkland Islands",FM:"Micronesia",FO:"Faroe Islands",FQ:"French Southern and Antarctic Territories",FR:"France",FX:"Metropolitan France",GA:"Gabon",GB:"United Kingdom",GD:"Grenada",GE:"Georgia",GF:"French Guiana",GG:"Guernsey",GH:"Ghana",GI:"Gibraltar",GL:"Greenland",GM:"Gambia",GN:"Guinea",GP:"Guadeloupe",GQ:"Equatorial Guinea",GR:"Greece",GS:"South Georgia and the South Sandwich Islands",GT:"Guatemala",GU:"Guam",GW:"Guinea-Bissau",GY:"Guyana",HK:"Hong Kong SAR China",HM:"Heard Island and McDonald Islands",HN:"Honduras",HR:"Croatia",HT:"Haiti",HU:"Hungary",ID:"Indonesia",IE:"Ireland",IL:"Israel",IM:"Isle of Man",IN:"India",IO:"British Indian Ocean Territory",IQ:"Iraq",IR:"Iran",IS:"Iceland",IT:"Italy",JE:"Jersey",JM:"Jamaica",JO:"Jordan",JP:"Japan",JT:"Johnston Island",KE:"Kenya",KG:"Kyrgyzstan",KH:"Cambodia",KI:"Kiribati",KM:"Comoros",KN:"Saint Kitts and Nevis",KP:"North Korea",KR:"South Korea",KW:"Kuwait",KY:"Cayman Islands",KZ:"Kazakhstan",LA:"Laos",LB:"Lebanon",LC:"Saint Lucia",LI:"Liechtenstein",LK:"Sri Lanka",LR:"Liberia",LS:"Lesotho",LT:"Lithuania",LU:"Luxembourg",LV:"Latvia",LY:"Libya",MA:"Morocco",MC:"Monaco",MD:"Moldova",ME:"Montenegro",MF:"Saint Martin",MG:"Madagascar",MH:"Marshall Islands",MI:"Midway Islands",MK:"Macedonia",ML:"Mali",MM:"Myanmar [Burma]",MN:"Mongolia",MO:"Macau SAR China",MP:"Northern Mariana Islands",MQ:"Martinique",MR:"Mauritania",MS:"Montserrat",MT:"Malta",MU:"Mauritius",MV:"Maldives",MW:"Malawi",MX:"Mexico",MY:"Malaysia",MZ:"Mozambique",NA:"Namibia",NC:"New Caledonia",NE:"Niger",NF:"Norfolk Island",NG:"Nigeria",NI:"Nicaragua",NL:"Netherlands",NO:"Norway",NP:"Nepal",NQ:"Dronning Maud Land",NR:"Nauru",NT:"Neutral Zone",NU:"Niue",NZ:"New Zealand",OM:"Oman",PA:"Panama",PC:"Pacific Islands Trust Territory",PE:"Peru",PF:"French Polynesia",PG:"Papua New Guinea",PH:"Philippines",PK:"Pakistan",PL:"Poland",PM:"Saint Pierre and Miquelon",PN:"Pitcairn Islands",PR:"Puerto Rico",PS:"Palestinian Territories",PT:"Portugal",PU:"U.S. Miscellaneous Pacific Islands",PW:"Palau",PY:"Paraguay",PZ:"Panama Canal Zone",QA:"Qatar",RE:"Réunion",RO:"Romania",RS:"Serbia",RU:"Russia",RW:"Rwanda",SA:"Saudi Arabia",SB:"Solomon Islands",SC:"Seychelles",SD:"Sudan",SE:"Sweden",SG:"Singapore",SH:"Saint Helena",SI:"Slovenia",SJ:"Svalbard and Jan Mayen",SK:"Slovakia",SL:"Sierra Leone",SM:"San Marino",SN:"Senegal",SO:"Somalia",SR:"Suriname",ST:"São Tomé and Príncipe",SU:"Union of Soviet Socialist Republics",SV:"El Salvador",SY:"Syria",SZ:"Swaziland",TC:"Turks and Caicos Islands",TD:"Chad",TF:"French Southern Territories",TG:"Togo",TH:"Thailand",TJ:"Tajikistan",TK:"Tokelau",TL:"Timor-Leste",TM:"Turkmenistan",TN:"Tunisia",TO:"Tonga",TR:"Turkey",TT:"Trinidad and Tobago",TV:"Tuvalu",TW:"Taiwan",TZ:"Tanzania",UA:"Ukraine",UG:"Uganda",UM:"U.S. Minor Outlying Islands",US:"United States",UY:"Uruguay",UZ:"Uzbekistan",VA:"Vatican City",VC:"Saint Vincent and the Grenadines",VD:"North Vietnam",VE:"Venezuela",VG:"British Virgin Islands",VI:"U.S. Virgin Islands",VN:"Vietnam",VU:"Vanuatu",WF:"Wallis and Futuna",WK:"Wake Island",WS:"Samoa",YD:"People's Democratic Republic of Yemen",YE:"Yemen",YT:"Mayotte",ZA:"South Africa",ZM:"Zambia",ZW:"Zimbabwe",ZZ:"Unknown or Invalid Region" };
 
 			var countriesArray = $.map(countries, function(value, key) {
@@ -1044,28 +1048,28 @@ var plot_player_03;
 			$('#autocomplete-custom-append').autocomplete({
 			  lookup: countriesArray
 			});
-			
+
 		};
-	   
+
 	 /* AUTOSIZE */
-			
+
 		function init_autosize() {
-			
+
 			if(typeof $.fn.autosize !== 'undefined'){
-			
+
 			autosize($('.resizable_textarea'));
-			
+
 			}
-			
-		};  
-	   
+
+		};
+
 	   /* PARSLEY */
-			
+
 		function init_parsley() {
-			
+
 			if( typeof (parsley) === 'undefined'){ return; }
 			console.log('init_parsley');
-			
+
 			$/*.listen*/('parsley:field:validate', function() {
 			  validateFront();
 			});
@@ -1082,7 +1086,7 @@ var plot_player_03;
 				$('.bs-callout-warning').removeClass('hidden');
 			  }
 			};
-		  
+
 			$/*.listen*/('parsley:field:validate', function() {
 			  validateFront();
 			});
@@ -1099,16 +1103,16 @@ var plot_player_03;
 				$('.bs-callout-warning').removeClass('hidden');
 			  }
 			};
-			
+
 			  try {
 				hljs.initHighlightingOnLoad();
 			  } catch (err) {}
-			
+
 		};
-	   
-		
+
+
 		  /* INPUTS */
-		  
+
 			function onAddTag(tag) {
 				alert("Added a tag: " + tag);
 			  }
@@ -1123,24 +1127,24 @@ var plot_player_03;
 
 			  //tags input
 			function init_TagsInput() {
-				  
-				if(typeof $.fn.tagsInput !== 'undefined'){	
-				 
+
+				if(typeof $.fn.tagsInput !== 'undefined'){
+
 				$('#tags_1').tagsInput({
 				  width: 'auto'
 				});
-				
+
 				}
-				
+
 		    };
-	   
+
 		/* SELECT2 */
-	  
+
 		function init_select2() {
-			 
+
 			if( typeof (select2) === 'undefined'){ return; }
 			console.log('init_toolbox');
-			 
+
 			$(".select2_single").select2({
 			  placeholder: "Select a state",
 			  allowClear: true
@@ -1151,16 +1155,16 @@ var plot_player_03;
 			  placeholder: "With Max Selection limit 4",
 			  allowClear: true
 			});
-			
+
 		};
-	   
+
 	   /* WYSIWYG EDITOR */
 
 		function init_wysiwyg() {
-			
+
 		if( typeof ($.fn.wysiwyg) === 'undefined'){ return; }
-		console.log('init_wysiwyg');	
-			
+		console.log('init_wysiwyg');
+
         function init_ToolbarBootstrapBindings() {
           var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
               'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
@@ -1215,27 +1219,27 @@ var plot_player_03;
 
        $('.editor-wrapper').each(function(){
 			var id = $(this).attr('id');	//editor-one
-			
+
 			$(this).wysiwyg({
 				toolbarSelector: '[data-target="#' + id + '"]',
 				fileUploadError: showErrorAlert
-			});	
+			});
 		});
- 
-		
+
+
         window.prettyPrint;
         prettyPrint();
-	
+
     };
-	  
+
 	/* CROPPER */
-		
+
 		function init_cropper() {
-			
-			
+
+
 			if( typeof ($.fn.cropper) === 'undefined'){ return; }
 			console.log('init_cropper');
-			
+
 			var $image = $('#image');
 			var $download = $('#download');
 			var $dataX = $('#dataX');
@@ -1457,19 +1461,19 @@ var plot_player_03;
 			} else {
 			  $inputImage.prop('disabled', true).parent().addClass('disabled');
 			}
-			
-			
+
+
 		};
-		
-		/* CROPPER --- end */  
-	  
+
+		/* CROPPER --- end */
+
 		/* KNOB */
-	  
+
 		function init_knob() {
-		
+
 				if( typeof ($.fn.knob) === 'undefined'){ return; }
 				console.log('init_knob');
-	
+
 				$(".knob").knob({
 				  change: function(value) {
 					//console.log("change : " + value);
@@ -1520,7 +1524,7 @@ var plot_player_03;
 					  return false;
 					}
 				  }
-				  
+
 				});
 
 				// Example of infinite knob, iPod click wheel
@@ -1566,27 +1570,27 @@ var plot_player_03;
 					v = this.cv;
 				  }
 				});
-				
+
 		};
-	 
+
 		/* INPUT MASK */
-			
+
 		function init_InputMask() {
-			
+
 			if( typeof ($.fn.inputmask) === 'undefined'){ return; }
 			console.log('init_InputMask');
-			
+
 				$(":input").inputmask();
-				
+
 		};
-	  
+
 		/* COLOR PICKER */
-			 
+
 		function init_ColorPicker() {
-			
+
 			if( typeof ($.fn.colorpicker) === 'undefined'){ return; }
 			console.log('init_ColorPicker');
-			
+
 				$('.demo1').colorpicker();
 				$('.demo2').colorpicker();
 
@@ -1600,17 +1604,17 @@ var plot_player_03;
 				});
 
 				$('.demo-auto').colorpicker();
-			
-		}; 
-	   
-	   
+
+		};
+
+
 		/* ION RANGE SLIDER */
-			
+
 		function init_IonRangeSlider() {
-			
+
 			if( typeof ($.fn.ionRangeSlider) === 'undefined'){ return; }
 			console.log('init_IonRangeSlider');
-			
+
 			$("#range_27").ionRangeSlider({
 			  type: "double",
 			  min: 1000000,
@@ -1671,17 +1675,17 @@ var plot_player_03;
 				return m.format("Do MMMM, HH:mm");
 			  }
 			});
-			
+
 		};
-	   
-	   
+
+
 	   /* DATERANGEPICKER */
-	   
+
 		function init_daterangepicker() {
 
 			if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
 			console.log('init_daterangepicker');
-		
+
 			var cb = function(start, end, label) {
 			  console.log(start.toISOString(), end.toISOString(), label);
 			  $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -1725,7 +1729,7 @@ var plot_player_03;
 				firstDay: 1
 			  }
 			};
-			
+
 			$('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
 			$('#reportrange').daterangepicker(optionSet1, cb);
 			$('#reportrange').on('show.daterangepicker', function() {
@@ -1749,14 +1753,14 @@ var plot_player_03;
 			$('#destroy').click(function() {
 			  $('#reportrange').data('daterangepicker').remove();
 			});
-   
+
 		}
-   	   
+
 	   function init_daterangepicker_right() {
-	      
+
 				if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
 				console.log('init_daterangepicker_right');
-		  
+
 				var cb = function(start, end, label) {
 				  console.log(start.toISOString(), end.toISOString(), label);
 				  $('#reportrange_right span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -1831,12 +1835,12 @@ var plot_player_03;
 				});
 
 	   }
-	   
+
 	    function init_daterangepicker_single_call() {
-	      
+
 			if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
 			console.log('init_daterangepicker_single_call');
-		   
+
 			$('#single_cal1').daterangepicker({
 			  singleDatePicker: true,
 			  singleClasses: "picker_1"
@@ -1861,16 +1865,16 @@ var plot_player_03;
 			}, function(start, end, label) {
 			  console.log(start.toISOString(), end.toISOString(), label);
 			});
-  
-  
+
+
 		}
-		
-		 
+
+
 		function init_daterangepicker_reservation() {
-	      
+
 			if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
 			console.log('init_daterangepicker_reservation');
-		 
+
 			$('#reservation').daterangepicker(null, function(start, end, label) {
 			  console.log(start.toISOString(), end.toISOString(), label);
 			});
@@ -1882,16 +1886,16 @@ var plot_player_03;
 				format: 'MM/DD/YYYY h:mm A'
 			  }
 			});
-	
+
 		}
-	   
+
 	   /* SMART WIZARD */
-		
+
 		function init_SmartWizard() {
-			
+
 			if( typeof ($.fn.smartWizard) === 'undefined'){ return; }
 			console.log('init_SmartWizard');
-			
+
 			$('#wizard').smartWizard();
 
 			$('#wizard_verticle').smartWizard({
@@ -1901,17 +1905,17 @@ var plot_player_03;
 			$('.buttonNext').addClass('btn btn-success');
 			$('.buttonPrevious').addClass('btn btn-primary');
 			$('.buttonFinish').addClass('btn btn-default');
-			
+
 		};
-	   
-	   
+
+
 	  /* VALIDATOR */
 
 	  function init_validator () {
-		 
+
 		if( typeof (validator) === 'undefined'){ return; }
-		console.log('init_validator'); 
-	  
+		console.log('init_validator');
+
 	  // initialize the validator function
       validator.message.date = 'not a real date';
 
@@ -1939,16 +1943,16 @@ var plot_player_03;
 
         return false;
 		});
-	  
+
 	  };
-	   
+
 	  	/* PNotify */
-			
+
 		function init_PNotify() {
-			
+
 			if( typeof (PNotify) === 'undefined'){ return; }
 			console.log('init_PNotify');
-			
+
 			new PNotify({
 			  title: "PNotify",
 			  type: "info",
@@ -1971,18 +1975,18 @@ var plot_player_03;
 			  }
 			});
 
-		}; 
-	   
-	   
+		};
+
+
 	   /* CUSTOM NOTIFICATION */
-			
+
 		function init_CustomNotification() {
-			
+
 			console.log('run_customtabs');
-			
+
 			if( typeof (CustomTabs) === 'undefined'){ return; }
 			console.log('init_CustomTabs');
-			
+
 			var cnt = 10;
 
 			TabbedNotification = function(options) {
@@ -2028,16 +2032,16 @@ var plot_player_03;
 			  $('.notifications a').first().addClass('active');
 			  $('#notif-group div').first().css('display', 'block');
 			});
-			
+
 		};
-		
+
 			/* EASYPIECHART */
-			
+
 			function init_EasyPieChart() {
-				
+
 				if( typeof ($.fn.easyPieChart) === 'undefined'){ return; }
 				console.log('init_EasyPieChart');
-				
+
 				$('.chart').easyPieChart({
 				  easing: 'easeOutElastic',
 				  delay: 3000,
@@ -2087,27 +2091,27 @@ var plot_player_03;
 					hide: 400
 				  }
 				});
-				
+
 			};
-	   
-		
+
+
 		function init_charts() {
-			
+
 				console.log('run_charts  typeof [' + typeof (Chart) + ']');
-			
+
 				if( typeof (Chart) === 'undefined'){ return; }
-				
+
 				console.log('init_charts');
-			
-				
+
+
 				Chart.defaults.global.legend = {
 					enabled: false
 				};
-				
-				
+
+
 
 			if ($('#canvas_line').length ){
-				
+
 				var canvas_line_00 = new Chart(document.getElementById("canvas_line"), {
 				  type: 'line',
 				  data: {
@@ -2135,12 +2139,12 @@ var plot_player_03;
 					}]
 				  },
 				});
-				
+
 			}
 
-			
+
 			if ($('#canvas_line1').length ){
-			
+
 				var canvas_line_01 = new Chart(document.getElementById("canvas_line1"), {
 				  type: 'line',
 				  data: {
@@ -2168,12 +2172,12 @@ var plot_player_03;
 					}]
 				  },
 				});
-			
+
 			}
-				
-				
-			if ($('#canvas_line2').length ){		
-			
+
+
+			if ($('#canvas_line2').length ){
+
 				var canvas_line_02 = new Chart(document.getElementById("canvas_line2"), {
 				  type: 'line',
 				  data: {
@@ -2202,11 +2206,11 @@ var plot_player_03;
 				  },
 				});
 
-			}	
-			
-			
+			}
+
+
 			if ($('#canvas_line3').length ){
-			
+
 				var canvas_line_03 = new Chart(document.getElementById("canvas_line3"), {
 				  type: 'line',
 				  data: {
@@ -2235,11 +2239,11 @@ var plot_player_03;
 				  },
 				});
 
-			}	
-			
-			
+			}
+
+
 			if ($('#canvas_line4').length ){
-				
+
 				var canvas_line_04 = new Chart(document.getElementById("canvas_line4"), {
 				  type: 'line',
 				  data: {
@@ -2266,15 +2270,15 @@ var plot_player_03;
 					  data: [82, 23, 66, 9, 99, 4, 2]
 					}]
 				  },
-				});		
-				
+				});
+
 			}
-			
-				
+
+
 			  // Line chart
-			 
-			if ($('#lineChart').length ){	
-			
+
+			if ($('#lineChart').length ){
+
 			  var ctx = document.getElementById("lineChart");
 			  var lineChart = new Chart(ctx, {
 				type: 'line',
@@ -2303,13 +2307,13 @@ var plot_player_03;
 				  }]
 				},
 			  });
-			
+
 			}
-				
+
 			  // Bar chart
-			  
-			if ($('#mybarChart').length ){ 
-			  
+
+			if ($('#mybarChart').length ){
+
 			  var ctx = document.getElementById("mybarChart");
 			  var mybarChart = new Chart(ctx, {
 				type: 'bar',
@@ -2336,14 +2340,14 @@ var plot_player_03;
 				  }
 				}
 			  });
-			  
-			} 
-			  
+
+			}
+
 
 			  // Doughnut chart
-			  
-			if ($('#canvasDoughnut').length ){ 
-			  
+
+			if ($('#canvasDoughnut').length ){
+
 			  var ctx = document.getElementById("canvasDoughnut");
 			  var data = {
 				labels: [
@@ -2378,13 +2382,13 @@ var plot_player_03;
 				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
 				data: data
 			  });
-			 
-			} 
+
+			}
 
 			  // Radar chart
-			  
-			if ($('#canvasRadar').length ){ 
-			  
+
+			if ($('#canvasRadar').length ){
+
 			  var ctx = document.getElementById("canvasRadar");
 			  var data = {
 				labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"],
@@ -2413,13 +2417,13 @@ var plot_player_03;
 				type: 'radar',
 				data: data,
 			  });
-			
+
 			}
-			
-			
+
+
 			  // Pie chart
 			  if ($('#pieChart').length ){
-				  
+
 				  var ctx = document.getElementById("pieChart");
 				  var data = {
 					datasets: [{
@@ -2449,10 +2453,10 @@ var plot_player_03;
 					  legend: false
 					}
 				  });
-				  
+
 			  }
-			
-			  
+
+
 			  // PolarArea chart
 
 			if ($('#polarArea').length ){
@@ -2490,30 +2494,30 @@ var plot_player_03;
 				  }
 				}
 				});
-			
+
 			}
 		}
 
 		/* COMPOSE */
-		
+
 		function init_compose() {
-		
+
 			if( typeof ($.fn.slideToggle) === 'undefined'){ return; }
 			console.log('init_compose');
-		
+
 			$('#compose, .compose-close').click(function(){
 				$('.compose').slideToggle();
 			});
-		
+
 		};
-	   
+
 	   	/* CALENDAR */
-		  
+
 		    function  init_calendar() {
-					
+
 				if( typeof ($.fn.fullCalendar) === 'undefined'){ return; }
 				console.log('init_calendar');
-					
+
 				var date = new Date(),
 					d = date.getDate(),
 					m = date.getMonth(),
@@ -2607,18 +2611,18 @@ var plot_player_03;
 					url: 'http://google.com/'
 				  }]
 				});
-				
+
 			};
-	   
+
 		/* DATA TABLES */
-			
+
 			function init_DataTables() {
-				
+
 				console.log('run_datatables');
-				
+
 				if( typeof ($.fn.DataTable) === 'undefined'){ return; }
 				console.log('init_DataTables');
-				
+
 				var handleDataTableButtons = function() {
 				  if ($("#datatable-buttons").length) {
 					$("#datatable-buttons").DataTable({
@@ -2694,18 +2698,18 @@ var plot_player_03;
 				});
 
 				TableManageButtons.init();
-				
+
 			};
-	   
+
 			/* CHART - MORRIS  */
-		
+
 		function init_morris_charts() {
-			
+
 			if( typeof (Morris) === 'undefined'){ return; }
 			console.log('init_morris_charts');
-			
-			if ($('#graph_bar').length){ 
-			
+
+			if ($('#graph_bar').length){
+
 				Morris.Bar({
 				  element: 'graph_bar',
 				  data: [
@@ -2730,10 +2734,10 @@ var plot_player_03;
 				  resize: true
 				});
 
-			}	
-			
+			}
+
 			if ($('#graph_bar_group').length ){
-			
+
 				Morris.Bar({
 				  element: 'graph_bar_group',
 				  data: [
@@ -2758,9 +2762,9 @@ var plot_player_03;
 				});
 
 			}
-			
+
 			if ($('#graphx').length ){
-			
+
 				Morris.Bar({
 				  element: 'graphx',
 				  data: [
@@ -2780,9 +2784,9 @@ var plot_player_03;
 				});
 
 			}
-			
+
 			if ($('#graph_area').length ){
-			
+
 				Morris.Area({
 				  element: 'graph_area',
 				  data: [
@@ -2807,9 +2811,9 @@ var plot_player_03;
 				});
 
 			}
-			
+
 			if ($('#graph_donut').length ){
-			
+
 				Morris.Donut({
 				  element: 'graph_donut',
 				  data: [
@@ -2826,9 +2830,9 @@ var plot_player_03;
 				});
 
 			}
-			
+
 			if ($('#graph_line').length ){
-			
+
 				Morris.Line({
 				  element: 'graph_line',
 				  xkey: 'year',
@@ -2849,22 +2853,22 @@ var plot_player_03;
 				$MENU_TOGGLE.on('click', function() {
 				  $(window).resize();
 				});
-			
+
 			}
-			
+
 		};
-	   
-		
-		
+
+
+
 		/* ECHRTS */
-	
-		
+
+
 		function init_echarts() {
-		
+
 				if( typeof (echarts) === 'undefined'){ return; }
 				console.log('init_echarts');
-			
-		
+
+
 				  var theme = {
 				  color: [
 					  '#26B99A', '#34495E', '#BDC3C7', '#3498DB',
@@ -3077,11 +3081,11 @@ var plot_player_03;
 				  }
 			  };
 
-			  
+
 			  //echart Bar
-			  
+
 			if ($('#mainb').length ){
-			  
+
 				  var echartBar = echarts.init(document.getElementById('mainb'), theme);
 
 				  echartBar.setOption({
@@ -3152,14 +3156,14 @@ var plot_player_03;
 				  });
 
 			}
-			  
-			  
-			  
-			  
+
+
+
+
 			   //echart Radar
-			  
-			if ($('#echart_sonar').length ){ 
-			  
+
+			if ($('#echart_sonar').length ){
+
 			  var echartRadar = echarts.init(document.getElementById('echart_sonar'), theme);
 
 			  echartRadar.setOption({
@@ -3224,12 +3228,12 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Funnel
-			  
-			if ($('#echart_pyramid').length ){ 
-			  
+
+			if ($('#echart_pyramid').length ){
+
 			  var echartFunnel = echarts.init(document.getElementById('echart_pyramid'), theme);
 
 			  echartFunnel.setOption({
@@ -3284,12 +3288,12 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Gauge
-			  
-			if ($('#echart_gauge').length ){ 
-			  
+
+			if ($('#echart_gauge').length ){
+
 			  var echartGauge = echarts.init(document.getElementById('echart_gauge'), theme);
 
 			  echartGauge.setOption({
@@ -3404,12 +3408,12 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Line
-			  
-			if ($('#echart_line').length ){ 
-			  
+
+			if ($('#echart_line').length ){
+
 			  var echartLine = echarts.init(document.getElementById('echart_line'), theme);
 
 			  echartLine.setOption({
@@ -3496,12 +3500,12 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Scatter
-			  
-			if ($('#echart_scatter').length ){ 
-			  
+
+			if ($('#echart_scatter').length ){
+
 			  var echartScatter = echarts.init(document.getElementById('echart_scatter'), theme);
 
 			  echartScatter.setOption({
@@ -4116,12 +4120,12 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Bar Horizontal
-			  
-			if ($('#echart_bar_horizontal').length ){ 
-			  
+
+			if ($('#echart_bar_horizontal').length ){
+
 			  var echartBar = echarts.init(document.getElementById('echart_bar_horizontal'), theme);
 
 			  echartBar.setOption({
@@ -4165,14 +4169,14 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Pie Collapse
-			  
-			if ($('#echart_pie2').length ){ 
-			  
+
+			if ($('#echart_pie2').length ){
+
 			  var echartPieCollapse = echarts.init(document.getElementById('echart_pie2'), theme);
-			  
+
 			  echartPieCollapse.setOption({
 				tooltip: {
 				  trigger: 'item',
@@ -4232,14 +4236,14 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Donut
-			  
-			if ($('#echart_donut').length ){  
-			  
+
+			if ($('#echart_donut').length ){
+
 			  var echartDonut = echarts.init(document.getElementById('echart_donut'), theme);
-			  
+
 			  echartDonut.setOption({
 				tooltip: {
 				  trigger: 'item',
@@ -4319,12 +4323,12 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Pie
-			  
-			if ($('#echart_pie').length ){  
-			  
+
+			if ($('#echart_pie').length ){
+
 			  var echartPie = echarts.init(document.getElementById('echart_pie'), theme);
 
 			  echartPie.setOption({
@@ -4413,12 +4417,12 @@ var plot_player_03;
 				}
 			  };
 
-			} 
-			  
+			}
+
 			   //echart Mini Pie
-			  
-			if ($('#echart_mini_pie').length ){ 
-			  
+
+			if ($('#echart_mini_pie').length ){
+
 			  var echartMiniPie = echarts.init(document.getElementById('echart_mini_pie'), theme);
 
 			  echartMiniPie .setOption({
@@ -4518,15 +4522,15 @@ var plot_player_03;
 				}]
 			  });
 
-			} 
-			  
+			}
+
 			   //echart Map
-			  
-			if ($('#echart_world_map').length ){ 
-			  
+
+			if ($('#echart_world_map').length ){
+
 				  var echartMap = echarts.init(document.getElementById('echart_world_map'), theme);
-				  
-				   
+
+
 				  echartMap.setOption({
 					title: {
 					  text: 'World Population (2010)',
@@ -5128,14 +5132,14 @@ var plot_player_03;
 					  }]
 					}]
 				  });
-	   
+
 			}
-	   
-		}  
-	   
-	   
+
+		}
+
+
 	$(document).ready(function() {
-				
+
 		init_sparklines();
 		init_flot_chart();
 		init_sidebar();
@@ -5170,7 +5174,5 @@ var plot_player_03;
 		init_CustomNotification();
 		init_autosize();
 		init_autocomplete();
-				
-	});	
-	
 
+	});
