@@ -132,9 +132,27 @@ class BridgeVersionClient(object):
         athlete_num = Map_Athlete_Device_To_Address[self.comm.rpcSourceAddr()]
         data_list = heart_rate_and_temp.split()
 
+        running_total = 0
+        i = 0
+        print "data: ",
+        while i < 10:
+            print data_list[i] + " ",
+            running_total += int(data_list[i])
+            i += 1
+
+        if running_total is 0:
+            heart_rate = 0
+        else:
+            heart_rate = 60000 / (running_total / 10) - 5
+
+        if heart_rate > 220:
+            heart_rate = 0
+
+        print "Athlete " + str(athlete_num) + ":        heartRate: " + str(heart_rate) + "\n"
+
         # update the buffer in the appropriate number for our data
         t = int(time.time())
-        self.buffer[athlete_num - 1].append([str(athlete_num), str(data_list[0]), str(data_list[1]), str(t)])
+        self.buffer[athlete_num - 1].append([str(athlete_num), str(heart_rate), str(data_list[1]), str(t)])
 
     def schedule_get_data_request_events_and_timeout(self):
         """This function creates the events on a certain time interval that allow us to send data back and forth
@@ -184,7 +202,7 @@ class BridgeVersionClient(object):
                 # remove the data entry we just wrote from the buffer
                 athlete.pop(0)
 
-        self.print_buffer()
+        # self.print_buffer()
 
         # necessary for schedular to not change our timeout period
         return True
