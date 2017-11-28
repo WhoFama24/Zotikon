@@ -16,7 +16,7 @@ if __name__ == "__main__":
     for i in range(150):
         now = datetime.now(timezone.utc)
         data_time = str((now - epoch) // timedelta(microseconds=1))
-        body = DB_EVENT_NAME + ",playerId='1' heartRate=" + randrange(35,200) + ",temperature=" + randrange(32,42) + " " + data_time
+        body = DB_EVENT_NAME + ",playerId='1' heartRate=" + str(randrange(35,200)) + ",temperature=" + str(randrange(32,42)) + " " + data_time
         requests.post(DB_URL, data=body, params={"db": DB_NAME}, headers={"Content-Type": "text/plain"})
         print("Wrote data point %u at time " + str(now))
         sleep(1/200)        # sleep for 1/200 seconds
