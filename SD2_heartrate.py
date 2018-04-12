@@ -135,7 +135,15 @@ def startup():
 
     global heartRate
 
-    setPinDir(GREEN_LED, True)
+    setPinDir(GREEN_LED, False)
+
+    # dont touch this. this sets it to where we can change the value
+    
+    setPinDir(GPIO_12, True)
+
+    # change this to true or false to keep the pin high or low for the duration of the program
+    writePin(GPIO_12, False)
+
     i2cInit(True)
 
     # tell the ds1631 to start calculating temperature
@@ -146,11 +154,10 @@ def startup():
     initHwTmr()
 
 
-@setHook(HOOK_100MS)
-def heart_beat_led():
-    """Flash GREEN LED every 100ms"""
-    writePin(GREEN_LED, not readPin(GREEN_LED))
-
+#@setHook(HOOK_100MS)
+#def heart_beat_led():
+    #"""Flash GREEN LED every 100ms"""
+    #writePin(GREEN_LED, not readPin(GREEN_LED))
 
 def get_timer():
     return tmrMs()
