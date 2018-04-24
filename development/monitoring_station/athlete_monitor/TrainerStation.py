@@ -44,9 +44,9 @@ DATABASE_UPDATE_INTERVAL_SECONDS = 1
 BUFFER_LEN_BEFORE_POP = 5
 
 # used to identify the RF200 devices
-Athlete_1_NetAddr = '\x5D\xE3\xAB'
-Athlete_2_NetAddr = '\x5D\xE5\x10'
-Athlete_3_NetAddr = '\x07\xA1\xDE'
+Athlete_1_NetAddr = '\x0D\x66\x68'
+Athlete_2_NetAddr = '\x0D\x66\x21'
+Athlete_3_NetAddr = '\x0D\x65\xF9'
 
 Map_Athlete_Device_To_Address = {Athlete_1_NetAddr: 1,
                                  Athlete_2_NetAddr: 2,
@@ -146,12 +146,27 @@ class BridgeVersionClient(object):
         if heart_rate > 220:
             heart_rate = 0
 
+        temp = data_list[10]
+        # try:
+        #     print "last buffer entry", self.buffer[athlete_num - 1][-1][2]
+        # except IndexError:
+        #     pass
+
+        # try:
+        #     if temp is "0" or "0.0":
+        #         temp = self.buffer[athlete_num - 1][-1][2]
+        #         print "new temp", temp
+        #
+        # except IndexError:
+        #     pass
+
+
         print "Athlete " + str(athlete_num) + ":        heartRate: " + str(heart_rate) + "      temperature: " + \
-              str(data_list[10]) + "\n"
+              str(temp) + "\n"
 
         # update the buffer in the appropriate number for our data
         t = int(time.time())
-        self.buffer[athlete_num - 1].append([str(athlete_num), str(heart_rate), str(data_list[10]), str(t)])
+        self.buffer[athlete_num - 1].append([str(athlete_num), str(heart_rate), str(temp), str(t)])
 
     def schedule_get_data_request_events_and_timeout(self):
         """This function creates the events on a certain time interval that allow us to send data back and forth
@@ -186,6 +201,14 @@ class BridgeVersionClient(object):
         # loop through our buffer and write off one of the data points if it is filled
         for athlete in self.buffer:
             while len(athlete) >= BUFFER_LEN_BEFORE_POP:
+
+                if str(athlete[0][2]) == "0.0":
+                    count = 1
+                    while count < len(athlete):
+                        if str(athlete[count][2]) is not "0.0":
+                            athlete[0][2] = athlete[count][2]
+                            break
+                        count += 1
 
                 # only write to data base if we are connect to the beagle-bone
                 if self.connected_to_beagle_bone:

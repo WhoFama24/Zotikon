@@ -23,8 +23,8 @@ elif platform.system() == 'Windows':
 
 # used to identify the RF200 devices
 Athlete_1_NetAddr = '\x5D\xE3\xAB'
-Athlete_2_NetAddr = '\x5D\xE5\x10'
-Athlete_3_NetAddr = '\x07\xA1\xDE'
+Athlete_2_NetAddr = '\x0D\x66\x21'
+Athlete_3_NetAddr = '\x0D\x65\xF9'
 
 log_file = open("LogFile.txt", "a")
 

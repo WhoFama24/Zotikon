@@ -21,18 +21,12 @@
 
         The algorithm for heart rate is modified from the following:
 
-            -Simple heart beat reader for Raspberry pi using ADS1x15 family of ADCs and a pulse sensor
-            -
-            - http://pulsesensor.com/
-            -
+            -Simple heart beat reader for Raspberry pi using ADS1x15 family of ADCs and a pulse sensor - http://pulsesensor.com/.
             -The code borrows heavily from Tony DiCola's examples of using ADS1x15 with
             -Raspberry pi and WorldFamousElectronics's code for PulseSensor_Amped_Arduino
             -
             -Author: Udayan Kumar
-            -License: Public Domain
-
-
-        it can also be found in this repo at development/athlete_worn_device/heart_rate/micro_python/version/main.py"""
+            -License: Public Domain"""
 
 from synapse.platforms import *
 from synapse.hardTime import *
@@ -62,6 +56,8 @@ flag = False
 Signal = 0
 N = 0
 
+PERIPHERAL_CONTROL = GPIO_12
+
 # use these arrays to handle the upper and lower bytes of the IBI over 10 periods.
 # This is passed to the trainer station to calculate heart rate. Synapse does
 # not support any larger data types than bytes for lists
@@ -81,12 +77,26 @@ def startup():
     rate = rate[:]
     rate2 = rate2[:]
 
-    # tell the ds1631 to start calculating temperature
-    i2cInit(False)
-    i2cWrite(chr(0x90) + chr(0x51), 5, False, False)
+    #set up i2c pins
+    setPinDir(GPIO_17, True)
+    setPinDir(GPIO_18, True)
+    writePin(GPIO_17, True)
+    writePin(GPIO_18, True)
+    
+    # Sets the peripheral control pin to a digital output
+    setPinDir(PERIPHERAL_CONTROL, True)
+    writePin(PERIPHERAL_CONTROL, True)
+
+    # change this to true or false to keep the pin high or low for the duration of the program
+    writePin(PERIPHERAL_CONTROL, False)
 
     # start HW timer to get current time in heartRate Calculation
     initHwTmr()
+    
+    
+def toggle_GPIO_12():
+    writePin(GPIO_12, not readPin(GPIO_12))
+    return readPin(GPIO_12)
 
 
 @setHook(HOOK_100MS)
@@ -149,6 +159,292 @@ def ds1631_temp_read():
         return final
 
     return 0
+
+
+def melexis_temp_read():
+    MSB = 0
+    LSB = 0
+    
+    #start
+    writePin(GPIO_17, False)
+    writePin(GPIO_18, False)
+   
+    #Byte 1
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #ACK
+    setPinDir(GPIO_17, False)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    setPinDir(GPIO_17, True)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #Byte 2
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)    
+    
+    #ACK
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #Restart
+    writePin(GPIO_17, True)
+    writePin(GPIO_18, True)
+    writePin(GPIO_17, False)
+    writePin(GPIO_18, False)
+    
+    #Byte 3
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 0)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    writePin(GPIO_17, 1)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #ack
+    setPinDir(GPIO_17, False)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #read bit
+    setPinDir(GPIO_17, True)
+    writePin(GPIO_17, False)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    setPinDir(GPIO_17, False)
+    if readPin(GPIO_17):
+        LSB += 128
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        LSB += 64
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        LSB += 32
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        LSB += 16
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        LSB += 8
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        LSB += 4
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        LSB += 2
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    LSB += readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #ACK
+    setPinDir(GPIO_17,True)
+    writePin(GPIO_17, False)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #read byte 2
+    setPinDir(GPIO_17,False)
+    if readPin(GPIO_17):
+        MSB += 128
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        MSB += 64
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        MSB += 32
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        MSB += 16
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        MSB += 8
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        MSB += 4
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    if readPin(GPIO_17):
+        MSB += 2
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    MSB += readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #ACK
+    setPinDir(GPIO_17,True)
+    writePin(GPIO_17, False)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #read byte 3
+    setPinDir(GPIO_17,False)
+    readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    readPin(GPIO_17)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #ACK
+    setPinDir(GPIO_17,True)
+    writePin(GPIO_17, False)
+    writePin(GPIO_18, True)
+    writePin(GPIO_18, False)
+    
+    #leave them high
+    writePin(GPIO_17, True)
+    writePin(GPIO_18, True)
+    
+    #calculate temp from data
+    total = (MSB * 256 + LSB)
+    Kelvin = (total) / 50
+    Leftover = total - (Kelvin * 50)
+    decimal = Leftover * 2
+    Celcius = Kelvin - 273
+        
+    #bigstr =   "   total: " + str(total) + "   Kelvin: " + str(Kelvin) + "   Leftover: " + str(Leftover) + "   decimal: " + str(decimal) + "   Celcius: " + str(Celcius)
+    #return bigstr
+    
+    if decimal < 10:
+        decimal = "0" + str(decimal)
+        
+    if Celcius > 15 and Celcius < 40:
+        return str(Celcius) + "." + str(decimal) + " degrees Celsius."
+    else:
+        return "0.0 degrees Celsius."
 
 
 @setHook(HOOK_10MS)
@@ -247,8 +543,14 @@ def get_data_string_formatted_for_portal():
         rate_value = rate[i] << 8 | rate2[i]
         return_str += str(rate_value) + " "
         i += 1
+        
+    count = 0
+    temp = melexis_temp_read()
+    while "0.0" in temp and count < 5:
+        temp = melexis_temp_read()
+        count += 1
 
-    return "\n\nheart rate IBI array: " + return_str + "\ntemperature: " + str(ds1631_temp_read())
+    return "\n\nheart rate IBI array: " + return_str + "\ntemperature: " + str(temp)
 
 
 def get_data_string():
@@ -262,5 +564,11 @@ def get_data_string():
         rate_value = rate[i] << 8 | rate2[i]
         return_str += str(rate_value) + " "
         i += 1
+        
+    count = 0
+    temp = melexis_temp_read()
+    while "0.0" in temp and count < 5:
+        temp = melexis_temp_read()
+        count += 1
 
-    return return_str + " " + str(ds1631_temp_read())
+    return return_str + " " + str(temp)
